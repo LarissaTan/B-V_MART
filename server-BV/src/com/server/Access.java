@@ -130,7 +130,6 @@ public class Access extends JFrame {
         signInPanel.add(passwordLabel);
         signInPanel.add(passwordField);
         signInPanel.add(signinButton);
-        //        Access panel ends
 
 
         /**** Dashboard panel starts ****/
@@ -240,7 +239,6 @@ public class Access extends JFrame {
         JButton newBillAddButton = new JButton("Add");
         newBillAddButton.setBounds(20,140,250,36);
         newBillAddButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        newBillAddButton.setBackground(Color.DARK_GRAY);
         newBillAddButton.setForeground(Color.DARK_GRAY);
         newBillAddButton.setFocusPainted(false);
         newBillAddButton.setRolloverEnabled(false);
@@ -294,7 +292,6 @@ public class Access extends JFrame {
         JButton newBillButton = new JButton("Create bill");
         newBillButton.setBounds(280,140,250,36);
         newBillButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        newBillButton.setBackground(Color.BLACK);
         newBillButton.setForeground(Color.BLACK);
         newBillButton.setFocusPainted(false);
         newBillButton.setRolloverEnabled(false);
@@ -305,7 +302,7 @@ public class Access extends JFrame {
         JButton newBillClearButton = new JButton("Clear");
         newBillClearButton.setBounds(20,510,250,32);
         newBillClearButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        newBillClearButton.setBackground(Color.BLACK);
+        //newBillClearButton.setBackground(Color.BLACK);
         newBillClearButton.setForeground(Color.BLACK);
         newBillClearButton.setFocusPainted(false);
         newBillClearButton.setRolloverEnabled(false);
@@ -320,7 +317,6 @@ public class Access extends JFrame {
         });
 
         newBill.setFont(new Font("Poppins",Font.PLAIN,14));
-        newBill.setBackground(Color.BLACK);
         newBill.setForeground(Color.BLACK);
         newBill.setFocusPainted(false);
         newBill.setRolloverEnabled(false);
@@ -348,7 +344,6 @@ public class Access extends JFrame {
                 newBillProductNameField.addItem(productNameData[i]);
             }
         });
-//        New bill ends
 
         /**** Add product start ****/
         JLabel addProductTitle = new JLabel("Add Product");
@@ -402,7 +397,6 @@ public class Access extends JFrame {
         JButton addProductClearButton = new JButton("Clear Field");
         addProductClearButton.setBounds(20,420,460,36);
         addProductClearButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        addProductClearButton.setBackground(Color.BLACK);
         addProductClearButton.setForeground(Color.BLACK);
         addProductClearButton.setFocusPainted(false);
         addProductClearButton.setRolloverEnabled(false);
@@ -414,7 +408,6 @@ public class Access extends JFrame {
         });
 
         addProduct.setFont(new Font("Poppins",Font.PLAIN,14));
-        addProduct.setBackground(Color.BLACK);
         addProduct.setForeground(Color.BLACK);
         addProduct.setFocusPainted(false);
         addProduct.setRolloverEnabled(false);
@@ -434,7 +427,7 @@ public class Access extends JFrame {
             String price = productPriceField.getText();
             String stock = productStockField.getText();
 
-//        file creation
+            /****** file creation ******/
             try {
                 File myObj = new File("products.txt");
                 if (myObj.createNewFile()) {
@@ -444,7 +437,7 @@ public class Access extends JFrame {
                 JOptionPane.showMessageDialog(addProduct,"Unable to add product");
                 exception.printStackTrace();
             }
-//            writing in file
+            /****** writing in file *******/
             try {
                 FileWriter myWriter = new FileWriter("products.txt", true);
                 myWriter.write(name + "," + id + "," + Float.parseFloat(price) + "," + Float.parseFloat(stock) + "\n");
@@ -460,7 +453,6 @@ public class Access extends JFrame {
                 exception.printStackTrace();
             }
         });
-//        Add product end
 
         /**** Available stock start ****/
         String[] stockColumnName = {"Product", "Id", "Price", "Stock"};
@@ -491,7 +483,6 @@ public class Access extends JFrame {
         availableStockScrollPane.setBounds(20,65,545,450);
 
         availableStock.setFont(new Font("Poppins",Font.PLAIN,14));
-        availableStock.setBackground(Color.BLACK);
         availableStock.setForeground(Color.BLACK);
         availableStock.setFocusPainted(false);
         availableStock.setRolloverEnabled(false);
@@ -515,8 +506,6 @@ public class Access extends JFrame {
                 });
             }
         });
-
-//        Available stock end
 
         /**** Update stock start ****/
         JLabel updateStockTitle = new JLabel("Update Stock");
@@ -573,7 +562,6 @@ public class Access extends JFrame {
         JButton updateStockUpdateButton = new JButton("Update");
 
         updateStock.setFont(new Font("Poppins",Font.PLAIN,14));
-        updateStock.setBackground(Color.BLACK);
         updateStock.setForeground(Color.BLACK);
         updateStock.setFocusPainted(false);
         updateStock.setRolloverEnabled(false);
@@ -606,7 +594,6 @@ public class Access extends JFrame {
 
         updateStockDeleteButton.setBounds(20,365,250,36);
         updateStockDeleteButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        updateStockDeleteButton.setBackground(Color.BLACK);
         updateStockDeleteButton.setForeground(Color.BLACK);
         updateStockDeleteButton.setFocusPainted(false);
         updateStockDeleteButton.setRolloverEnabled(false);
@@ -662,7 +649,6 @@ public class Access extends JFrame {
 
         updateStockUpdateButton.setBounds(280,365,250,36);
         updateStockUpdateButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        updateStockUpdateButton.setBackground(Color.BLACK);
         updateStockUpdateButton.setForeground(Color.BLACK);
         updateStockUpdateButton.setFocusPainted(false);
         updateStockUpdateButton.setRolloverEnabled(false);
@@ -720,7 +706,6 @@ public class Access extends JFrame {
 
         updateStockSelectButton.setBounds(280,85,250,36);
         updateStockSelectButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        updateStockSelectButton.setBackground(Color.BLACK);
         updateStockSelectButton.setForeground(Color.BLACK);
         updateStockSelectButton.setFocusPainted(false);
         updateStockSelectButton.setRolloverEnabled(false);
@@ -791,7 +776,6 @@ public class Access extends JFrame {
         JButton salesSearchButton = new JButton("Search");
         salesSearchButton.setBounds(280,150,250,36);
         salesSearchButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        salesSearchButton.setBackground(Color.BLACK);
         salesSearchButton.setForeground(Color.BLACK);
         salesSearchButton.setFocusPainted(false);
         salesSearchButton.setRolloverEnabled(false);
@@ -821,16 +805,13 @@ public class Access extends JFrame {
         JButton salesUpdateButton = new JButton("Update");
         salesUpdateButton.setBounds(20,505,250,36);
         salesUpdateButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        salesUpdateButton.setBackground(Color.BLACK);
         salesUpdateButton.setForeground(Color.BLACK);
         salesUpdateButton.setFocusPainted(false);
         salesUpdateButton.setRolloverEnabled(false);
         salesUpdateButton.setEnabled(false);
 
 
-
         sales.setFont(new Font("Poppins",Font.PLAIN,14));
-        sales.setBackground(Color.BLACK);
         sales.setForeground(Color.BLACK);
         sales.setFocusPainted(false);
         sales.setRolloverEnabled(false);
@@ -915,7 +896,6 @@ public class Access extends JFrame {
 
         /**** About Start ****/
         about.setFont(new Font("Poppins",Font.PLAIN,14));
-        about.setBackground(Color.BLACK);
         about.setForeground(Color.BLACK);
         about.setFocusPainted(false);
         about.setRolloverEnabled(false);
@@ -937,10 +917,9 @@ public class Access extends JFrame {
         aboutTextPane.setText("\n\n\n\nDEVELOPED BY\n\n" +
                 "\tTan Qianqian\tSWE2009514\n\n" + "\tLiu Aofan\t\tSWE2009510\n\n\n\n\n" +
                 "WARNING!\n\n" + "\tThis is for internal staff of B-V Mart! If you are customers, go to \n\tthe customers version!\n");
-        //        About end
 
+        /****** set sign out ******/
         signOut.setFont(new Font("Poppins",Font.PLAIN,14));
-        signOut.setBackground(Color.RED);
         signOut.setForeground(Color.RED);
         signOut.setFocusPainted(false);
         signOut.setRolloverEnabled(false);
@@ -957,6 +936,7 @@ public class Access extends JFrame {
             aboutPanel.setVisible(false);
         });
 
+        /****** side menu ******/
         sideMenu.add(newBill);
         sideMenu.add(addProduct);
         sideMenu.add(availableStock);
@@ -1135,7 +1115,7 @@ public class Access extends JFrame {
                     exception.printStackTrace();
                 }
 
-//                Updating function
+                /******* Updating function *******/
                 try {
                     File inputFile = new File("products.txt");
                     if (!inputFile.isFile()) {
