@@ -50,7 +50,6 @@ public class PayActivity extends AppCompatActivity {
     private  BigDecimal one ;
     private  double a ;
     private Dialog dialog;
-    private double accountMoney;
     private OrderBean orderBean;
     private Gson gson;
     private String goodsJson;
@@ -58,7 +57,7 @@ public class PayActivity extends AppCompatActivity {
     private  BigDecimal a1 ;
     private  BigDecimal a2 ;
     private  BigDecimal result1 ;
-    private  double resultMoney ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,15 +135,9 @@ public class PayActivity extends AppCompatActivity {
 
 
     private void doInsertOrder(){
-        accountMoney = MySQLiteHelper.getInstance(PayActivity.this).getUserMoneyFromUserName(MainActivity.username);
         //解决double精度丢失问题
-            a1 = new BigDecimal(accountMoney);
             a2 = new BigDecimal(total);
-            result1 = a1.subtract(a2);
-            one = new BigDecimal("1");
-            resultMoney =  result1.divide(one,2,BigDecimal.ROUND_HALF_UP).doubleValue();//保留2位数
 
-            MySQLiteHelper.getInstance(PayActivity.this).RechargeMoney(MainActivity.username,resultMoney);
             gson = new Gson();
             goodsJson = gson.toJson(data);
             //Log.e("inputString=" , inputString);

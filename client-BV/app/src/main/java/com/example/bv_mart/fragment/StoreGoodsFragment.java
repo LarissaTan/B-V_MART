@@ -81,7 +81,7 @@ public class StoreGoodsFragment extends Fragment {
 
     public StoreGoodsFragment(String storeID) {
         gson = new Gson();
-        json = MySQLiteHelper.getInstance(AppContext.getInstance()).queryGoodsFromStoreID(storeID);
+        json = MySQLiteHelper.getInstance(AppContext.getInstance()).queryGoods();
         Type type = new TypeToken<GoodsArrayBean>() {}.getType();
         this.goodsArrayBean = gson.fromJson(json, type);
     }

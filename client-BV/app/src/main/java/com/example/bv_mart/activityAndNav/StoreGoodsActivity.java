@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.bv_mart.fragment.StoreGoodsFragment;
 import com.example.bv_mart.R;
 import com.example.bv_mart.adapter.MyTabAdapter;
-import com.example.bv_mart.bean.StoreBean;
 import com.example.bv_mart.fragment.StoreCommentFragment;
 import com.example.bv_mart.util.MySQLiteHelper;
 import com.google.android.material.tabs.TabLayout;
@@ -31,7 +30,6 @@ public class StoreGoodsActivity extends AppCompatActivity {
     private List<Fragment> fragments = new ArrayList<>();
     private Toolbar toolbar;
     private String storeID;
-    private StoreBean storeBean;
     private TextView tv_storeName;
     private TextView tv_storeSell;
 
@@ -39,7 +37,6 @@ public class StoreGoodsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_goods);
-        storeID = "0";
         initData();
         initView();
         setActionBar();
@@ -63,8 +60,6 @@ public class StoreGoodsActivity extends AppCompatActivity {
 
 
     private void initData() {
-        storeBean = new StoreBean();
-        storeBean = MySQLiteHelper.getInstance(getApplicationContext()).queryStoreBeanFromStoreID(storeID);
         storeGoodsFragment = new StoreGoodsFragment(storeID);
         storeCommentFragment = new StoreCommentFragment();
         fragments.add(storeGoodsFragment);
@@ -79,8 +74,8 @@ public class StoreGoodsActivity extends AppCompatActivity {
         tv_storeName = findViewById(R.id.tv_storeName_act);
         tv_storeSell = findViewById(R.id.tv_store_sell_act);
 
-        tv_storeName.setText(storeBean.getStoreName());
-        tv_storeSell.setText("Monthly sales："+storeBean.getStoreSell());
+        tv_storeName.setText("B-V Mart");
+        tv_storeSell.setText("Monthly sales："+ "123"); //这里放sales的数据
 
         //初始化tab的Adapter
         myTabAdapter = new MyTabAdapter(getSupportFragmentManager(),fragments);

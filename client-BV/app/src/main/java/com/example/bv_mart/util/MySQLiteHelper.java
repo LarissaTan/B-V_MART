@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.bv_mart.bean.ChatMessageBean;
 import com.example.bv_mart.bean.OrderBean;
-import com.example.bv_mart.bean.StoreBean;
 import com.example.bv_mart.bean.Userinfo;
 
 import java.util.ArrayList;
@@ -86,10 +85,10 @@ public class MySQLiteHelper {
 
 
     //根据输入的商店ID搜索数据库并返回一个该商店的商品集合
-    public String queryGoodsFromStoreID(String goodsID){
+    public String queryGoods(){
         String resultJson = null;
         Cursor cursor = db.rawQuery("SELECT * FROM goodsInfo WHERE ID LIKE ? ",
-                new String[] {goodsID});
+                new String[] {"0"});
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 resultJson = cursor.getString(2);
@@ -97,52 +96,6 @@ public class MySQLiteHelper {
         }
         return resultJson;
     }
-
-
-    //根据输入的商店ID搜索数据库并返回一个该商店的信息集合
-    public StoreBean queryStoreBeanFromStoreID(String goodsID){
-        StoreBean storeBean = new StoreBean();
-        Cursor cursor = db.rawQuery("SELECT * FROM storeInfo WHERE ID LIKE ? ",
-                new String[] {goodsID});
-        if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                storeBean.setID(cursor.getString(1));
-                storeBean.setIv_store_pic(cursor.getString(2));
-                storeBean.setStoreName(cursor.getString(3));
-                storeBean.setStoreScore(cursor.getString(4));
-                storeBean.setStoreSell(cursor.getString(5));
-            }
-        }
-        return storeBean;
-    }
-
-
-    //删除指定的用户信息
-    public void deleteUserInfo(String username){
-        db.execSQL("DELETE  from  userInfo WHERE userName LIKE ? ",
-                new String[] { username});
-    }
-
-
-
-    //查询所有商家信息的方法
-    public List<StoreBean> queryAllStores(){
-        List<StoreBean> storeBeans = new ArrayList<>();
-        Cursor cursor = db.rawQuery("select * from storeInfo ", null);
-        if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                StoreBean storeBean = new StoreBean();
-                storeBean.setID(cursor.getString(1));
-                storeBean.setIv_store_pic(cursor.getString(2));
-                storeBean.setStoreName(cursor.getString(3));
-                storeBean.setStoreScore(cursor.getString(4));
-                storeBean.setStoreSell(cursor.getString(5));
-                storeBeans.add(storeBean);
-            }
-        }
-        return storeBeans;
-    }
-
 
     //查询所有信息的方法
     public List<ChatMessageBean> queryAllMessages(){
@@ -174,39 +127,6 @@ public class MySQLiteHelper {
         //插入数据，参数为表名，当列为空时的填充值，封装数据的ContentValue
         db.insert("messagesInfo",null,cv);
     }
-
-
-    //获取当前用户的账户余额
-    public double getUserMoneyFromUserName(String userName){
-        double money = 0;
-        Cursor cursor = db.rawQuery("SELECT * FROM userInfo WHERE userName LIKE ? ",
-                new String[] {userName});
-        if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                money = cursor.getDouble(4);
-            }
-        }
-        return money;
-    }
-
-    //充值的方法
-    public void RechargeMoney(String userName,double newMoney){
-            db.execSQL("update userInfo set money = ? where userName like ?",new Object[]{newMoney,userName});
-    }
-
-
-    //查询全部商家的名称
-    public List<String> getAllStoreName(){
-        List<String> storeNames = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM storeInfo",null);
-            if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                storeNames.add(cursor.getString(3));
-            }
-        }
-        return storeNames;
-    }
-
 
 
     //将订单信息插入到订单表中
