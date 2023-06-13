@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/single_0"
+            android:icon="@mipmap/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/single_1"
+            android:icon="@mipmap/plan"
+            android:title="Order List" />
+        <item
+            android:id="@+id/single_2"
+            android:icon="@mipmap/my_money"
+            android:title="My Wallet" />
+        <item
+            android:id="@+id/single_4"
+            android:icon="@mipmap/exit"
+            android:title="Log out" />
+    </group>
+
+</menu>

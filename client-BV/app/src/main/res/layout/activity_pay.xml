@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activityAndNav.PayActivity">
+
+    <include layout="@layout/mytoolbar"/>
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:textAlignment="center"
+        android:text="Please check about the information"
+        android:textColor="@color/black"
+        android:fontFamily="@font/alegreya"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
+        android:gravity="center_horizontal" />
+
+    <RelativeLayout
+        android:layout_below="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pay"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tv_pay_total"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/tv_submitOrder"
+            android:textSize="30dp"
+            android:text="$45.26"
+            android:textColor="#E30732"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+
+        <TextView
+            android:id="@+id/tv_submitOrder"
+            android:text="Submit"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/abeezee_italic"
+            android:background="@drawable/textview_shape"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="140dp"
+            android:layout_height="40dp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

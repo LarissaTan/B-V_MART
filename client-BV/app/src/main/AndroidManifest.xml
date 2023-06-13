@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.bv_mart">
+
+    <application
+        android:name=".util.AppContext"
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activityAndNav.OrderDetailsActivity"/>
+        <activity android:name=".activityAndNav.OrderFragment"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".activityAndNav.PayActivity" />
+        <activity android:name=".activityAndNav.RechargeActivity" />
+        <activity android:name=".activityAndNav.AccountFragment"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".activityAndNav.StoreGoodsActivity" />
+        <activity android:name=".activityAndNav.RegisterActivity" />
+        <activity android:name=".activityAndNav.HomeActivity" />
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

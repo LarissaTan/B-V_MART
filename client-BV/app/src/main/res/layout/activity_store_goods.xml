@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activityAndNav.StoreGoodsActivity">
+
+    <include layout="@layout/mytoolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_storeName_act"
+            android:layout_marginTop="20dp"
+            android:text="branch name"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/abeezee_italic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_below="@+id/tv_storeName_act"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_height="20dp">
+
+            <TextView
+                android:id="@+id/tv_store_sell_act"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:text="xxxx"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/home_newsTab"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorColor="@color/card_bg_red"
+        app:tabSelectedTextColor="@color/card_bg_red"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/home_news_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+</LinearLayout>
