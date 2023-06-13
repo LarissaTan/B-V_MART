@@ -42,22 +42,17 @@ public class Access extends JFrame {
         accessLayeredPane.setLayout(null);
         accessLayeredPane.setPreferredSize(new Dimension(600, 400));
         JPanel signInPanel = new JPanel();
-        JPanel signUpPanel = new JPanel();
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
         JPanel panel4 = new JPanel();
         signInPanel.setBounds(0,0,600,400);
-        signUpPanel.setBounds(0,0,600,400);
         panel1.setPreferredSize(new Dimension(100, 100));
         panel2.setPreferredSize(new Dimension(100, 100));
         panel3.setPreferredSize(new Dimension(100, 100));
         panel4.setPreferredSize(new Dimension(100, 100));
         signInPanel.setLayout(null);
         signInPanel.setBackground(Color.WHITE);
-        signUpPanel.setLayout(null);
-        signUpPanel.setBackground(Color.WHITE);
-
 
         /**** SignInPanel Component ****/
         JLabel titleLabel = new JLabel("B-V Mart");
@@ -83,9 +78,8 @@ public class Access extends JFrame {
         passwordField.setFont(new Font("Poppins",Font.PLAIN,14));
 
         JButton signinButton = new JButton("Sign In");
-        signinButton.setBounds(170,260,260,36);
+        signinButton.setBounds(220,260,160,36);
         signinButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        signinButton.setBackground(Color.BLACK);
         signinButton.setForeground(Color.BLACK);
         signinButton.setFocusPainted(false);
         signinButton.setRolloverEnabled(false);
@@ -103,7 +97,7 @@ public class Access extends JFrame {
                         String usernameFromDb = token[0];
                         String passwordFromDb = token[1];
                         if (username.equals(usernameFromDb) && password.equals(passwordFromDb)) {
-                        JOptionPane.showMessageDialog(signInPanel,"Sucessfully signed in");
+                        JOptionPane.showMessageDialog(signInPanel,"Successfully signed in!!!!");
                             accessPanel.setVisible(false);
                             dashboardPanel.setVisible(true);
                             usernameField.setText("");
@@ -124,10 +118,8 @@ public class Access extends JFrame {
                     JOptionPane.showMessageDialog(signInPanel,"File not found");
                     exception.printStackTrace();
                 }
-            }else if (usernameField.getText().equals("")){
-                JOptionPane.showMessageDialog(signInPanel,"Username field can't be empty");
-            }else if (passwordField.getPassword().length == 0){
-                JOptionPane.showMessageDialog(signInPanel,"Password field can't be empty");
+            }else if (usernameField.getText().equals("") || passwordField.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(signInPanel, "Username/password field can't be empty");
             }
         });
 
@@ -138,12 +130,7 @@ public class Access extends JFrame {
         signInPanel.add(passwordLabel);
         signInPanel.add(passwordField);
         signInPanel.add(signinButton);
-
-
-
-
-//        Access panel ends
-
+        //        Access panel ends
 
 
         /**** Dashboard panel starts ****/
@@ -1043,7 +1030,6 @@ public class Access extends JFrame {
 
         accessPanel.add(accessLayeredPane, BorderLayout.CENTER);
         accessLayeredPane.add(signInPanel, BorderLayout.CENTER);
-        accessLayeredPane.add(signUpPanel, BorderLayout.CENTER);
         accessPanel.add(panel1, BorderLayout.NORTH);
         accessPanel.add(panel2, BorderLayout.SOUTH);
         accessPanel.add(panel3, BorderLayout.WEST);
@@ -1195,7 +1181,6 @@ public class Access extends JFrame {
                 }catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
             }else if (customerNameField.getText().equals("")){
                 JOptionPane.showMessageDialog(frame,"Please enter customer name");
             }
