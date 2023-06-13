@@ -1,4 +1,4 @@
-package com.example.cutecoffee;
+package com.example.bv_mart;
 
 import org.junit.Test;
 

@@ -11,7 +11,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.cutecoffee"
+        applicationId "com.example.bv_mart"
         minSdkVersion 14
         targetSdkVersion 33
         versionCode 1
@@ -26,7 +26,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "cutecoffee_${versionName}_${releaseTime()}.apk"
+                    outputFileName = "bv_mart_${versionName}_${releaseTime()}.apk"
                 }
             }
         }
