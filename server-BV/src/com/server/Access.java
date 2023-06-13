@@ -23,7 +23,7 @@ public class Access extends JFrame {
         this.setLayout(null);
         this.setSize(800,600);
         this.setResizable(false);
-        this.setTitle("Super market management system");
+        this.setTitle("Internal personnel only");
 
         JLayeredPane containerLayeredPane = new JLayeredPane();
         containerLayeredPane.setLayout(null);
@@ -39,7 +39,7 @@ public class Access extends JFrame {
         dashboardPanel.setBounds(0,0,800,600);
         dashboardPanel.setVisible(false);
 
-//        Access frame start
+        /**** Access frame start ****/
         JLayeredPane accessLayeredPane = new JLayeredPane();
         accessLayeredPane.setLayout(null);
         accessLayeredPane.setPreferredSize(new Dimension(600, 400));
@@ -61,12 +61,12 @@ public class Access extends JFrame {
         signUpPanel.setBackground(Color.WHITE);
 
 
-//        SignInPanel Component
-        JLabel titleLabel = new JLabel("Welcome Back");
-        titleLabel.setBounds(200,20,200,32);
+        /**** SignInPanel Component ****/
+        JLabel titleLabel = new JLabel("B-V Mart");
+        titleLabel.setBounds(240,40,200,32);
         titleLabel.setFont(new Font("Poppins",Font.BOLD,24));
 
-        JLabel usernameLabel = new JLabel("Enter Username");
+        JLabel usernameLabel = new JLabel("Username");
         usernameLabel.setBounds(70,80,200,25);
         usernameLabel.setForeground(Color.GRAY);
         usernameLabel.setFont(new Font("Poppins",Font.PLAIN,14));
@@ -75,7 +75,7 @@ public class Access extends JFrame {
         usernameField.setBounds(70,110,460,36);
         usernameField.setFont(new Font("Poppins",Font.PLAIN,14));
 
-        JLabel passwordLabel = new JLabel("Enter Password");
+        JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(70,160,200,25);
         passwordLabel.setForeground(Color.GRAY);
         passwordLabel.setFont(new Font("Poppins",Font.PLAIN,14));
@@ -84,7 +84,7 @@ public class Access extends JFrame {
         passwordField.setBounds(70,190,460,36);
         passwordField.setFont(new Font("Poppins",Font.PLAIN,14));
 
-        JButton signinButton = new JButton("Signin");
+        JButton signinButton = new JButton("Sign In");
         signinButton.setBounds(70,260,460,36);
         signinButton.setFont(new Font("Poppins",Font.PLAIN,14));
         signinButton.setBackground(Color.BLACK);
@@ -133,117 +133,17 @@ public class Access extends JFrame {
             }
         });
 
-        JButton createNewAccount = new JButton("<HTML><U>Create new account?</U></HTML>");
-        createNewAccount.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        createNewAccount.setBounds(45,310,200,25);
-        createNewAccount.setForeground(Color.GRAY);
-        createNewAccount.setFont(new Font("Poppins",Font.PLAIN,14));
-        createNewAccount.setFocusPainted(false);
-        createNewAccount.setRolloverEnabled(false);
-        createNewAccount.setBorder(null);
-        createNewAccount.setContentAreaFilled(false);
-        createNewAccount.addActionListener(e -> {
-            signInPanel.setVisible(false);
-            signUpPanel.setVisible(true);
-        });
-
         signInPanel.add(titleLabel);
         signInPanel.add(usernameLabel);
         signInPanel.add(usernameField);
         signInPanel.add(passwordLabel);
         signInPanel.add(passwordField);
         signInPanel.add(signinButton);
-        signInPanel.add(createNewAccount);
+
 //        SignInPanel Component
 
 
-//        SignUpPanel Component
-        JLabel signUpTitleLabel = new JLabel("Create new account");
-        signUpTitleLabel.setBounds(170,20,260,32);
-        signUpTitleLabel.setFont(new Font("Poppins",Font.BOLD,24));
 
-        JLabel signUpUsernameLabel = new JLabel("Enter Username");
-        signUpUsernameLabel.setBounds(70,80,200,25);
-        signUpUsernameLabel.setForeground(Color.GRAY);
-        signUpUsernameLabel.setFont(new Font("Poppins",Font.PLAIN,14));
-
-        JTextField signUpUsernameField = new JTextField(50);
-        signUpUsernameField.setBounds(70,110,460,36);
-        signUpUsernameField.setFont(new Font("Poppins",Font.PLAIN,14));
-
-        JLabel signUpPasswordLabel = new JLabel("Enter Password");
-        signUpPasswordLabel.setBounds(70,160,200,25);
-        signUpPasswordLabel.setForeground(Color.GRAY);
-        signUpPasswordLabel.setFont(new Font("Poppins",Font.PLAIN,14));
-
-        JPasswordField signUpPasswordField = new JPasswordField();
-        signUpPasswordField.setBounds(70,190,460,36);
-        signUpPasswordField.setFont(new Font("Poppins",Font.PLAIN,14));
-
-        JButton signUpButton = new JButton("Signup");
-        signUpButton.setBounds(70,260,460,36);
-        signUpButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        signUpButton.setBackground(Color.BLACK);
-        signUpButton.setForeground(Color.BLACK);
-        signUpButton.setFocusPainted(false);
-        signUpButton.setRolloverEnabled(false);
-        signUpButton.addActionListener(e -> {
-            String username = signUpUsernameField.getText();
-            String password = new String(signUpPasswordField.getPassword());
-            if (!signUpUsernameField.getText().equals("") && signUpPasswordField.getPassword().length != 0){
-                Scanner sc = new Scanner(System.in);
-                try {
-                    File myObj = new File("users.txt");
-                    if (myObj.createNewFile()) {
-                        System.out.println("File created: " + myObj.getName());
-                    }
-                } catch (IOException exception) {
-                    System.out.println("An error occurred.");
-                    exception.printStackTrace();
-                }
-//            writing in file
-                try {
-                    FileWriter myWriter = new FileWriter("users.txt", true);
-                    myWriter.write(username + "," + password + "\n");
-                    myWriter.close();
-                    JOptionPane.showMessageDialog(signUpPanel,"Signup Successful");
-                    signUpPanel.setVisible(false);
-                    signInPanel.setVisible(true);
-                    signUpUsernameField.setText("");
-                    signUpPasswordField.setText("");
-                } catch (IOException exception) {
-                    JOptionPane.showMessageDialog(signUpPanel,"Something went wrong");
-                    exception.printStackTrace();
-                }
-            }else if (signUpUsernameField.getText().equals("")){
-                JOptionPane.showMessageDialog(signUpPanel,"Username field can't be empty");
-            }else if (signUpPasswordField.getPassword().length == 0){
-                JOptionPane.showMessageDialog(signUpPanel,"Password field can't be empty");
-            }
-        });
-
-        JButton alreadyHaveAnAccountButton = new JButton("<HTML><U>Already have an account? Signin</U></HTML>");
-        alreadyHaveAnAccountButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        alreadyHaveAnAccountButton.setBounds(65,310,240,25);
-        alreadyHaveAnAccountButton.setForeground(Color.GRAY);
-        alreadyHaveAnAccountButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        alreadyHaveAnAccountButton.setFocusPainted(false);
-        alreadyHaveAnAccountButton.setRolloverEnabled(false);
-        alreadyHaveAnAccountButton.setBorder(null);
-        alreadyHaveAnAccountButton.setContentAreaFilled(false);
-        alreadyHaveAnAccountButton.addActionListener(e -> {
-            signUpPanel.setVisible(false);
-            signInPanel.setVisible(true);
-        });
-
-        signUpPanel.add(signUpTitleLabel);
-        signUpPanel.add(signUpUsernameLabel);
-        signUpPanel.add(signUpUsernameField);
-        signUpPanel.add(signUpPasswordLabel);
-        signUpPanel.add(signUpPasswordField);
-        signUpPanel.add(signUpButton);
-        signUpPanel.add(alreadyHaveAnAccountButton);
-//        SignUpPanel Component
 //        Access panel ends
 
 
