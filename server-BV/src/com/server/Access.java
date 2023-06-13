@@ -67,25 +67,25 @@ public class Access extends JFrame {
         titleLabel.setFont(new Font("Poppins",Font.BOLD,24));
 
         JLabel usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(70,80,200,25);
+        usernameLabel.setBounds(170,80,200,25);
         usernameLabel.setForeground(Color.GRAY);
         usernameLabel.setFont(new Font("Poppins",Font.PLAIN,14));
 
         JTextField usernameField = new JTextField(50);
-        usernameField.setBounds(70,110,460,36);
+        usernameField.setBounds(170,110,260,36);
         usernameField.setFont(new Font("Poppins",Font.PLAIN,14));
 
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(70,160,200,25);
+        passwordLabel.setBounds(170,160,200,25);
         passwordLabel.setForeground(Color.GRAY);
         passwordLabel.setFont(new Font("Poppins",Font.PLAIN,14));
 
         JPasswordField passwordField = new JPasswordField();
-        passwordField.setBounds(70,190,460,36);
+        passwordField.setBounds(170,190,260,36);
         passwordField.setFont(new Font("Poppins",Font.PLAIN,14));
 
         JButton signinButton = new JButton("Sign In");
-        signinButton.setBounds(70,260,460,36);
+        signinButton.setBounds(170,260,260,36);
         signinButton.setFont(new Font("Poppins",Font.PLAIN,14));
         signinButton.setBackground(Color.BLACK);
         signinButton.setForeground(Color.BLACK);
@@ -133,6 +133,7 @@ public class Access extends JFrame {
             }
         });
 
+        /**** SignInPanel Component ****/
         signInPanel.add(titleLabel);
         signInPanel.add(usernameLabel);
         signInPanel.add(usernameField);
@@ -140,7 +141,6 @@ public class Access extends JFrame {
         signInPanel.add(passwordField);
         signInPanel.add(signinButton);
 
-//        SignInPanel Component
 
 
 
@@ -148,7 +148,7 @@ public class Access extends JFrame {
 
 
 
-//        Dashboard panel starts
+        /**** Dashboard panel starts ****/
         JPanel sideMenu = new JPanel();
         sideMenu.setLayout(null);
         sideMenu.setPreferredSize(new Dimension(200,600));
@@ -194,9 +194,9 @@ public class Access extends JFrame {
         JButton updateStock = new JButton("Update Product");
         JButton sales = new JButton("Sales");
         JButton about = new JButton("About");
-        JButton signOut = new JButton("Signout");
+        JButton signOut = new JButton("Sign Out");
 
-//        New bill start
+        /**** New bill start ****/
         int count = Functions.recordCount("products.txt");
 
         JLabel newBillTitle = new JLabel("New Bill");
@@ -227,7 +227,7 @@ public class Access extends JFrame {
         JLabel newBillTotalLabel = new JLabel("Total: 0");
         newBillTotalLabel.setBounds(280,510,250,32);
         newBillTotalLabel.setOpaque(true);
-        newBillTotalLabel.setBackground(Color.BLACK);
+        newBillTotalLabel.setBackground(Color.WHITE);
         newBillTotalLabel.setForeground(Color.BLACK);
         newBillTotalLabel.setFont(new Font("Poppins",Font.PLAIN,14));
 
@@ -365,7 +365,7 @@ public class Access extends JFrame {
         });
 //        New bill ends
 
-//        Add product start
+        /**** Add product start ****/
         JLabel addProductTitle = new JLabel("Add Product");
         addProductTitle.setBounds(20,20,360,25);
         addProductTitle.setFont(new Font("Poppins",Font.BOLD,20));
@@ -533,7 +533,7 @@ public class Access extends JFrame {
 
 //        Available stock end
 
-//        Update stock start
+        /**** Update stock start ****/
         JLabel updateStockTitle = new JLabel("Update Stock");
         updateStockTitle.setBounds(20,20,360,25);
         updateStockTitle.setFont(new Font("Poppins",Font.BOLD,20));
@@ -775,7 +775,7 @@ public class Access extends JFrame {
         });
 //        Update stock end
 
-//        Sales start
+        /**** Sales start ****/
         String[] salesSearchByFieldData = {"---Select---","Bill No","Customer Name","Phone NO"};
 
         JLabel salesTitle = new JLabel("Sales");
@@ -938,7 +938,7 @@ public class Access extends JFrame {
         });
 //        Sales end
 
-//        About Start
+        /**** About Start ****/
         about.setFont(new Font("Poppins",Font.PLAIN,14));
         about.setBackground(Color.BLACK);
         about.setForeground(Color.BLACK);
@@ -960,7 +960,7 @@ public class Access extends JFrame {
         aboutTextPane.setMargin(new Insets(20, 20, 20, 20));
         aboutTextPane.setEditable(false);
         aboutTextPane.setText("DEVELOPED BY\n\n" +
-                "AVINASH KARMJIT\n");
+                "\tTan Qianqian SWE2009514\n\n" + "\t\tLiu Aofan SWE2009510\n");
 //        About end
 
         signOut.setFont(new Font("Poppins",Font.PLAIN,14));
