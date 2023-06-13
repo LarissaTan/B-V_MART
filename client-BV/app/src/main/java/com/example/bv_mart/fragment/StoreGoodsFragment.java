@@ -277,16 +277,16 @@ public class StoreGoodsFragment extends Fragment {
         public void convert(BaseRecyclerHolder holder, final int position) {
             switch (getmData().get(position).getPicNumb()){
                 case "0":
-                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.c1);
+                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.calendar);
                     break;
                 case "1":
-                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.c2);
+                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.chair);
                     break;
                 case "2":
-                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.c3);
+                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.jasmine);
                     break;
                 case "3":
-                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.c4);
+                    ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.milk);
                     break;
                 case "4":
                     ((ImageView)holder.getView(R.id.iv_goods)).setImageResource(R.drawable.soda);

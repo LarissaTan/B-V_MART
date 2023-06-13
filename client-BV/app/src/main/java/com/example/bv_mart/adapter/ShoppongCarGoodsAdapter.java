@@ -54,16 +54,16 @@ public class ShoppongCarGoodsAdapter  extends  RecyclerView.Adapter<ShoppongCarG
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         switch (data.get(position).getPicNumb()){
             case "0":
-                holder.iv_pic.setImageResource(R.drawable.c1);
+                holder.iv_pic.setImageResource(R.drawable.calendar);
                 break;
             case "1":
-                holder.iv_pic.setImageResource(R.drawable.c2);
+                holder.iv_pic.setImageResource(R.drawable.chair);
                 break;
             case "2":
-                holder.iv_pic.setImageResource(R.drawable.c3);
+                holder.iv_pic.setImageResource(R.drawable.jasmine);
                 break;
             case "3":
-                holder.iv_pic.setImageResource(R.drawable.c4);
+                holder.iv_pic.setImageResource(R.drawable.milk);
                 break;
             case "4":
                 holder.iv_pic.setImageResource(R.drawable.soda);

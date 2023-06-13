@@ -59,14 +59,14 @@
 
                 <ImageView
                     android:id="@+id/icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:src="@drawable/icon" />
                 <TextView
                     android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Welcome to our Cute Coffee, where we serve locally roasted coffee and handmade pastries. Come in and take a seat, we can't wait to serve you!"/>
+                    android:text="Welcome to B-V Mart, an online retail platform that offers a wide range of products. Come in and have an order, we can't wait to serve you!"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -115,6 +115,7 @@
                 android:layout_width="80dp"
                 android:layout_height="70dp"
                 android:src="@drawable/clipboard"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -156,7 +157,7 @@
                         android:id="@+id/imageView4"
                         android:layout_width="80dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="15dp"
                         android:src="@drawable/paymentmethod"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

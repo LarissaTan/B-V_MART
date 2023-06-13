@@ -37,7 +37,7 @@
                 android:layout_height="40dp"
                 android:layout_margin="20dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/c1" />
+                android:src="@drawable/calendar" />
         </androidx.cardview.widget.CardView>
 
 

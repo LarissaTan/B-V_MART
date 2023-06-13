@@ -60,54 +60,6 @@ public class StoreCommentFragment extends Fragment {
 
         chatMessageBeans = MySQLiteHelper.getInstance(getContext()).queryAllMessages();
 
-        /**
-         * 通过此方法，将json数据存入数据库，将数据转化为json格式存储
-         */
-//        GoodsArrayBean goodsArrayBean = new GoodsArrayBean();
-//        goodsArrayBean.itemsLeft = new ArrayList<>();
-//        goodsArrayBean.itemsRight = new ArrayList<>();
-//
-//        goodsArrayBean.itemsLeft.add(new GoodsArrayBean.ItemL("吉他"));
-//        goodsArrayBean.itemsLeft.add(new GoodsArrayBean.ItemL("尤克里里"));
-//        goodsArrayBean.itemsLeft.add(new GoodsArrayBean.ItemL("钢琴"));
-//        goodsArrayBean.itemsLeft.add(new GoodsArrayBean.ItemL("长笛"));
-//        goodsArrayBean.itemsLeft.add(new GoodsArrayBean.ItemL("架子鼓"));
-//
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("吉他","1","吉他1","1600.50","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("吉他","2","吉他2","950.85","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("吉他","8","吉他3","1900.00","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("吉他","9","吉他4","1200.00","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("吉他","8","吉他5","2300.00","我是商品标题展示数据。。。",0));
-//
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("尤克里里","6","尤克里里1","350.80","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("尤克里里","5","尤克里里2","950.88","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("尤克里里","9","尤克里里3","690.88","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("尤克里里","1","尤克里里4","950.88","我是商品标题展示数据。。。",0));
-//
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("钢琴","6","钢琴1","11000.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("钢琴","5","钢琴2","85000.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("钢琴","1","钢琴3","16000.00","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("钢琴","2","钢琴4","60000.90","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("钢琴","5","钢琴5","35000.50","我是商品标题展示数据。。。",0));
-//
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("长笛","9","长笛1","110.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("长笛","1","长笛2","150.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("长笛","2","长笛3","90.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("长笛","3","长笛4","190.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("长笛","9","长笛5","52.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("长笛","5","长笛6","150.99","我是商品标题展示数据。。。",0));
-//
-//
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("架子鼓","2","架子鼓1","1500.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("架子鼓","9","架子鼓2","1500.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("架子鼓","5","架子鼓3","1500.99","我是商品标题展示数据。。。",0));
-//        goodsArrayBean.itemsRight.add(new GoodsArrayBean.ItemR("架子鼓","1","架子鼓4","1500.99","我是商品标题展示数据。。。",0));
-//
-//
-//        Gson gson = new Gson();
-//        String inputString = gson.toJson(goodsArrayBean);
-//        Log.e("inputString=" , inputString);
-
     }
 
     private void initView() {
