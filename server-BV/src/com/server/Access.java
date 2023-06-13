@@ -6,9 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.print.PrinterException;
 import java.io.*;
-import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -843,14 +841,7 @@ public class Access extends JFrame {
         salesUpdateButton.setRolloverEnabled(false);
         salesUpdateButton.setEnabled(false);
 
-        JButton salesPrintButton = new JButton("Print");
-        salesPrintButton.setBounds(280,505,250,36);
-        salesPrintButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        salesPrintButton.setBackground(Color.BLACK);
-        salesPrintButton.setForeground(Color.BLACK);
-        salesPrintButton.setFocusPainted(false);
-        salesPrintButton.setRolloverEnabled(false);
-        salesPrintButton.setEnabled(false);
+
 
         sales.setFont(new Font("Poppins",Font.PLAIN,14));
         sales.setBackground(Color.BLACK);
@@ -894,7 +885,6 @@ public class Access extends JFrame {
                 JOptionPane.showMessageDialog(salesPanel,"Please select search by options");
             }else if (salesSearchByField.getSelectedIndex() != 0 && !Objects.equals(salesSearchTableData, "")){
                 salesTableModel.setRowCount(0);
-                salesPrintButton.setEnabled(true);
                 salesUpdateButton.setEnabled(true);
             }else if (salesSearchBoxField.getText().equals("")){
                 JOptionPane.showMessageDialog(salesPanel,"Search box can't be empty");
@@ -959,9 +949,10 @@ public class Access extends JFrame {
         aboutTextPane.setFont(new Font("Poppins",Font.PLAIN,14));
         aboutTextPane.setMargin(new Insets(20, 20, 20, 20));
         aboutTextPane.setEditable(false);
-        aboutTextPane.setText("DEVELOPED BY\n\n" +
-                "\tTan Qianqian SWE2009514\n\n" + "\t\tLiu Aofan SWE2009510\n");
-//        About end
+        aboutTextPane.setText("\n\n\n\nDEVELOPED BY\n\n" +
+                "\tTan Qianqian\tSWE2009514\n\n" + "\tLiu Aofan\t\tSWE2009510\n\n\n\n\n" +
+                "WARNING!\n\n" + "\tThis is for internal staff of B-V Mart! If you are customers, go to \n\tthe customers version!\n");
+        //        About end
 
         signOut.setFont(new Font("Poppins",Font.PLAIN,14));
         signOut.setBackground(Color.RED);
@@ -1044,10 +1035,10 @@ public class Access extends JFrame {
         salesPanel.add(salesSearchButton);
         salesPanel.add(salesScrollPane);
         salesPanel.add(salesUpdateButton);
-        salesPanel.add(salesPrintButton);
+
 
         aboutPanel.add(aboutTextPane);
-//        Dashboard panel ends
+        //        Dashboard panel ends
 
         containerLayeredPane.add(accessPanel);
         containerLayeredPane.add(dashboardPanel);
@@ -1225,113 +1216,6 @@ public class Access extends JFrame {
             }
         });
 
-        JButton printButton = new JButton("Print");
-        printButton.setBounds(280,510,250,36);
-        printButton.setFont(new Font("Poppins",Font.PLAIN,14));
-        printButton.setBackground(Color.BLACK);
-        printButton.setForeground(Color.BLACK);
-        printButton.setFocusPainted(false);
-        printButton.setRolloverEnabled(false);
-        printButton.addActionListener(e ->{
-            if (!customerNameField.getText().equals("") && !customerPhNoField.getText().equals("")){
-//              Saving function
-//            File creation
-                try {
-                    File myObj = new File("sales.txt");
-                    if (myObj.createNewFile()) {
-                        System.out.println("File created: " + myObj.getName());
-                    }
-                } catch (IOException exception) {
-                    JOptionPane.showMessageDialog(frame,"Unable to create sales file");
-                    exception.printStackTrace();
-                }
-//            writing in file
-                try {
-                    LocalDateTime myObj = LocalDateTime.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                    String[] formatedDate = myObj.format(formatter).split(" ");
-
-                    FileWriter myWriter = new FileWriter("sales.txt", true);
-                    myWriter.write(
-                            (Functions.recordCount("sales.txt")+1) + ","
-                                    + formatedDate[0] + ","
-                                    + formatedDate[1] + ","
-                                    + finalTotal + ","
-                                    + customerNameField.getText() +","
-                                    + customerPhNoField.getText()
-                                    + "\n"
-                    );
-                    myWriter.close();
-                    JOptionPane.showMessageDialog(frame,"Bill saved");
-                } catch (IOException exception) {
-                    JOptionPane.showMessageDialog(frame,"Error saving data");
-                    exception.printStackTrace();
-                }
-
-//                Updating function
-                try {
-                    File inputFile = new File("products.txt");
-                    if (!inputFile.isFile()) {
-                        System.out.println("File does not exist");
-                        return;
-                    }
-                    File tempFile = new File(inputFile.getAbsolutePath() + ".tmp");
-                    BufferedReader br = new BufferedReader(new FileReader("products.txt"));
-                    PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
-                    String line = null;
-                    //Read from the original file and write to the new
-                    //unless content matches data to be removed.
-                    while ((line = br.readLine()) != null) {
-                        float tempProductQuantity = 0;
-                        String[] token = line.split(",");
-                        for (int i=0;billData[i][0] != null;i++){
-                            if (!billData[i][0].equals("")){
-                                if (billData[i][0].equals(token[0])){
-                                    tempProductQuantity = tempProductQuantity + productQuantity[i];
-                                }
-                            }
-                        }
-                        if (tempProductQuantity > 0){
-                            pw.println(token[0]+","+token[1]+","+token[2]+","+(Float.parseFloat(token[3])-tempProductQuantity));
-                            pw.flush();
-                        }else {
-                            pw.println(line);
-                        }
-                    }
-                    pw.close();
-                    br.close();
-                    //Delete the original file
-                    if (!inputFile.delete()) {
-                        System.out.println("Could not delete file");
-                        return;
-                    }
-                    //Rename the new file to the filename the original file had.
-                    if (!tempFile.renameTo(inputFile))
-                        System.out.println("Could not rename file");
-
-                }
-                catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
-//            Printing function
-                MessageFormat headerFormat = new MessageFormat("Supermart by team17");
-                MessageFormat footerFormat = new MessageFormat("Designed by team17");
-                try{
-                    customerInfoTable.print(JTable.PrintMode.FIT_WIDTH,headerFormat,footerFormat);
-                }catch (PrinterException exception){
-                    JOptionPane.showMessageDialog(customerInfoTable,exception);
-                }
-            }else if (customerNameField.getText().equals("")){
-                JOptionPane.showMessageDialog(frame,"Please enter customer name");
-            }else {
-                JOptionPane.showMessageDialog(frame,"Please enter Phone no");
-            }
-        });
-
-
         frame.add(customerInfoTitle);
         frame.add(customerNameLabel);
         frame.add(customerNameField);
@@ -1339,7 +1223,6 @@ public class Access extends JFrame {
         frame.add(customerPhNoField);
         frame.add(customerInfoScrollPane);
         frame.add(saveButton);
-        frame.add(printButton);
         frame.setVisible(true);
     }
 }
