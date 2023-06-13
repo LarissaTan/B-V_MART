@@ -83,8 +83,6 @@ public class MySQLiteHelper {
         return userinfo.getId();
     }
 
-
-    //根据输入的商店ID搜索数据库并返回一个该商店的商品集合
     public String queryGoods(){
         String resultJson = null;
         Cursor cursor = db.rawQuery("SELECT * FROM goodsInfo WHERE ID LIKE ? ",
