@@ -15,7 +15,6 @@
         <activity android:name=".activityAndNav.OrderFragment"
             tools:ignore="Instantiatable" />
         <activity android:name=".activityAndNav.PayActivity" />
-        <activity android:name=".activityAndNav.RechargeActivity" />
         <activity android:name=".activityAndNav.AccountFragment"
             tools:ignore="Instantiatable" />
         <activity android:name=".activityAndNav.StoreGoodsActivity" />

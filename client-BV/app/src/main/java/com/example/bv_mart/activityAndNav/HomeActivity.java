@@ -23,7 +23,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private int UserID ;
     private OrderFragment orderFragment = new OrderFragment();
     private HomeFragment homeFragment = new HomeFragment();
-    private AccountFragment accountFragment = new AccountFragment();
 
 
     @Override
@@ -56,9 +55,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case R.id.single_1:
                     replacementFragment(orderFragment);
-                    break;
-                case R.id.single_2:
-                    replacementFragment(accountFragment);
                     break;
                 case R.id.single_4:
                     startActivity(new Intent(HomeActivity.this, MainActivity.class));

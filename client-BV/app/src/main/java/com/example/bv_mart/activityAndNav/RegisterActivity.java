@@ -24,13 +24,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private AlertDialog dialog;
     private EditText et_userName;
     private EditText et_password;
-    private EditText et_phonNumb;
     private Button btn_register;
-    private Button btn_cancle;
 
     private String userName;
     private String password;
-    private String phoneNumb;
 
     private TextView tv_bar_title;
     private Toolbar toolbar;
@@ -56,16 +53,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initView() {
         et_userName = findViewById(R.id.et_username);
         et_password = findViewById(R.id.et_password);
-        et_phonNumb = findViewById(R.id.et_phoneNumb);
         btn_register = findViewById(R.id.btn_register);
-        btn_cancle = findViewById(R.id.btn_cancle);
 
         toolbar = findViewById(R.id.toolbar);
         tv_bar_title = findViewById(R.id.tv_bar_title);
         tv_bar_title.setText("Register");
 
         btn_register.setOnClickListener(this);
-        btn_cancle.setOnClickListener(this);
 
     }
 
@@ -85,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_register:
                 userName = et_userName.getText().toString();
                 password = et_password.getText().toString();
-                phoneNumb = et_phonNumb.getText().toString();
 
                 if (MySQLiteHelper.getInstance(this).queryNameisExist(userName)) {
                     ToastUtil.showShort("user exist, please login");
@@ -95,18 +88,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     ToastUtil.showShort("user name or password can not be null");
                     return;
                 }
-                if (TextUtils.isEmpty(phoneNumb)) {
-                    ToastUtil.showShort("phone number can not be null");
-                    return;
-                }
 
 
                 final Userinfo userinfo = new Userinfo();
                 userinfo.setUserName(userName);
                 userinfo.setPassword(password);
-                userinfo.setPhoneNumb(phoneNumb);
                 dialog = new AlertDialog.Builder(this).setTitle("Check the information first please~~")
-                        .setMessage("name：" + userName + '\n' + "pwd：" + password + '\n' + "phone：" + phoneNumb + '\n')
+                        .setMessage("name：" + userName + '\n' + "pwd：" + password + '\n')
                         .setIcon(R.drawable.icon)
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
@@ -117,9 +105,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setNegativeButton("Cancel", null)
                         .create();
                 dialog.show();
-                break;
-            case R.id.btn_cancle:
-                RegisterActivity.this.finish();
                 break;
         }
     }

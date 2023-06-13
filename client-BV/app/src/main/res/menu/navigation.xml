@@ -12,10 +12,6 @@
             android:icon="@mipmap/plan"
             android:title="Order List" />
         <item
-            android:id="@+id/single_2"
-            android:icon="@mipmap/my_money"
-            android:title="My Wallet" />
-        <item
             android:id="@+id/single_4"
             android:icon="@mipmap/exit"
             android:title="Log out" />

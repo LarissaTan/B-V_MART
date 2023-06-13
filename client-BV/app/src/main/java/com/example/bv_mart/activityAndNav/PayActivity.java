@@ -109,7 +109,7 @@ public class PayActivity extends AppCompatActivity {
             //Log.e("total",total+"");
         }
 
-        tv_pay_total.setText("￥"+ total);
+        tv_pay_total.setText(total + "RM");
 
         tv_submitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,12 +137,7 @@ public class PayActivity extends AppCompatActivity {
 
     private void doInsertOrder(){
         accountMoney = MySQLiteHelper.getInstance(PayActivity.this).getUserMoneyFromUserName(MainActivity.username);
-        //判断账户余额是否足够
-        if (total > accountMoney){
-            ToastUtil.showShort("Your balance is not enough. Please charge first.");
-            dialog.dismiss();
-        }else {
-            //解决double精度丢失问题
+        //解决double精度丢失问题
             a1 = new BigDecimal(accountMoney);
             a2 = new BigDecimal(total);
             result1 = a1.subtract(a2);
@@ -160,7 +155,6 @@ public class PayActivity extends AppCompatActivity {
             ToastUtil.showShort("We have receive that order!");
             MyDialog.handler.sendEmptyMessage(2);
             PayActivity.this.finish();
-        }
 
     }
 }
