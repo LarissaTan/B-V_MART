@@ -475,7 +475,7 @@ public class Access extends JFrame {
         });
 //        Add product end
 
-//        Available stock start
+        /**** Available stock start ****/
         String[] stockColumnName = {"Product", "Id", "Price", "Stock"};
 
         JLabel availableStockTitle = new JLabel("Available Stock");
@@ -815,7 +815,6 @@ public class Access extends JFrame {
         salesTableModel.addColumn("Time");
         salesTableModel.addColumn("Amount");
         salesTableModel.addColumn("Name");
-        salesTableModel.addColumn("Mob No");
 
         JTable salesTable = new JTable(salesTableModel);
         salesTable.getTableHeader().setFont(new Font("Poppins",Font.PLAIN,14));
@@ -859,7 +858,7 @@ public class Access extends JFrame {
 
             salesTableModel.setRowCount(0);
             int salesRowCount = Functions.recordCount("sales.txt");
-            String[][] salesData = Functions.fileData("sales.txt",6);
+            String[][] salesData = Functions.fileData("sales.txt",5);
             for (int i=0;i<salesRowCount;i++){
                 salesTableModel.insertRow(salesTableModel.getRowCount(), new Object[] {
                         salesData[i][0],
@@ -867,7 +866,6 @@ public class Access extends JFrame {
                         salesData[i][2],
                         salesData[i][3],
                         salesData[i][4],
-                        salesData[i][5],
                 });
             }
         });
@@ -1038,8 +1036,8 @@ public class Access extends JFrame {
 
 
         aboutPanel.add(aboutTextPane);
-        //        Dashboard panel ends
 
+        /***** Dashboard panel ends *****/
         containerLayeredPane.add(accessPanel);
         containerLayeredPane.add(dashboardPanel);
 
@@ -1066,7 +1064,7 @@ public class Access extends JFrame {
         frame.setSize(600,600);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        frame.setTitle("Custumer Info");
+        frame.setTitle("Set Customers Information");
 
         JLabel customerInfoTitle = new JLabel("Customer Info");
         customerInfoTitle.setBounds(20,20,360,25);
@@ -1080,15 +1078,6 @@ public class Access extends JFrame {
         JTextField customerNameField = new JTextField(50);
         customerNameField.setBounds(20,85,250,36);
         customerNameField.setFont(new Font("Poppins",Font.PLAIN,14));
-
-        JLabel customerPhNoLabel = new JLabel("Phone no");
-        customerPhNoLabel.setBounds(280,65,250,25);
-        customerPhNoLabel.setForeground(Color.GRAY);
-        customerPhNoLabel.setFont(new Font("Poppins",Font.PLAIN,14));
-
-        JTextField customerPhNoField = new JTextField(50);
-        customerPhNoField.setBounds(280,85,250,36);
-        customerPhNoField.setFont(new Font("Poppins",Font.PLAIN,14));
 
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Product");
@@ -1128,8 +1117,8 @@ public class Access extends JFrame {
         saveButton.setRolloverEnabled(false);
         float finalTotal = total;
         saveButton.addActionListener(e ->{
-            if (!customerNameField.getText().equals("") && !customerPhNoField.getText().equals("")){
-//            File creation
+            if (!customerNameField.getText().equals("")){
+            /***** File creation ******/
                 try {
                     File myObj = new File("sales.txt");
                     if (myObj.createNewFile()) {
@@ -1139,7 +1128,7 @@ public class Access extends JFrame {
                     JOptionPane.showMessageDialog(frame,"Unable to create sales file");
                     exception.printStackTrace();
                 }
-//            writing in file
+                /***** writing in file *****/
                 try {
                     LocalDateTime myObj = LocalDateTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -1151,9 +1140,7 @@ public class Access extends JFrame {
                                     + formatedDate[0] + ","
                                     + formatedDate[1] + ","
                                     + finalTotal + ","
-                                    + customerNameField.getText() +","
-                                    + customerPhNoField.getText()
-                                    + "\n"
+                                    + customerNameField.getText() + "\n"
                     );
                     myWriter.close();
                     JOptionPane.showMessageDialog(frame,"Bill saved");
@@ -1211,16 +1198,12 @@ public class Access extends JFrame {
 
             }else if (customerNameField.getText().equals("")){
                 JOptionPane.showMessageDialog(frame,"Please enter customer name");
-            }else {
-                JOptionPane.showMessageDialog(frame,"Please enter Phone no");
             }
         });
 
         frame.add(customerInfoTitle);
         frame.add(customerNameLabel);
         frame.add(customerNameField);
-        frame.add(customerPhNoLabel);
-        frame.add(customerPhNoField);
         frame.add(customerInfoScrollPane);
         frame.add(saveButton);
         frame.setVisible(true);
