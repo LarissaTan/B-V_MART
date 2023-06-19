@@ -1,6 +1,7 @@
 package com.server;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -22,7 +23,7 @@ public class Access extends JFrame {
 
 
 
-    Access() throws IOException, FontFormatException {
+    Access() throws IOException, FontFormatException{
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -163,59 +164,51 @@ public class Access extends JFrame {
 
         /**** Dashboard panel starts ****/
         JPanel sideMenu = new JPanel();
-        sideMenu.setLayout(null);
-        sideMenu.setPreferredSize(new Dimension(800, 30));
+        sideMenu.setLayout(new FlowLayout(FlowLayout.LEFT, 34, 0));
+        sideMenu.setPreferredSize(new Dimension(800, 20));
         sideMenu.setBackground(Color.WHITE);
 
         JLayeredPane dashboardContentLayeredPane = new JLayeredPane();
         dashboardContentLayeredPane.setLayout(null);
-        dashboardContentLayeredPane.setPreferredSize(new Dimension(600, 600));
+        dashboardContentLayeredPane.setPreferredSize(new Dimension(800, 580));
 
         JPanel newBillPanel = new JPanel();
         newBillPanel.setLayout(null);
-        newBillPanel.setBounds(0, 50, 800, 550);
+        newBillPanel.setBounds(0, 20, 800, 580);
         newBillPanel.setVisible(false);
 
         JPanel addProductPanel = new JPanel();
-//        居中addProductPanel
         addProductPanel.setLayout(null);
-        addProductPanel.setBounds(0, 50, 800, 550);
+        addProductPanel.setBounds(0, 20, 800, 580);
         addProductPanel.setVisible(false);
 
         JPanel availableStockPanel = new JPanel();
         availableStockPanel.setLayout(null);
-        availableStockPanel.setBounds(0, 50, 800, 550);
+        availableStockPanel.setBounds(0, 20, 800, 580);
         availableStockPanel.setVisible(false);
 
         JPanel updateStockPanel = new JPanel();
         updateStockPanel.setLayout(null);
-        updateStockPanel.setBounds(0, 50, 800, 550);
+        updateStockPanel.setBounds(0, 20, 800, 580);
         updateStockPanel.setVisible(false);
 
         JPanel salesPanel = new JPanel();
         salesPanel.setLayout(null);
-        salesPanel.setBounds(0, 100, 800, 500);
+        salesPanel.setBounds(0, 20, 800, 580);
         salesPanel.setVisible(false);
 
         JPanel aboutPanel = new JPanel();
         aboutPanel.setLayout(null);
-        aboutPanel.setBounds(0, 100, 800, 500);
+        aboutPanel.setBounds(0, 20, 800, 580);
         aboutPanel.setVisible(false);
 
-        String[] catalog = {"---Select---", "New Bill", "Add Product", "Available Product","Update Product","Sales","About","Sign Out"};
-        JComboBox selectFunc = new JComboBox(catalog);
-        selectFunc.setBounds(20, 20, 150, 36);
-        selectFunc.setFont(new Font("Poppins", Font.PLAIN, 14));
-        selectFunc.setBackground(Color.WHITE);
-        selectFunc.setEditable(true);
-        selectFunc.setSelectedIndex(0);
-
-        JButton select = new JButton("Select");
-        select.setFont(new Font("Poppins", Font.PLAIN, 14));
-        select.setForeground(Color.BLACK);
-        select.setFocusPainted(false);
-        select.setRolloverEnabled(false);
-        select.setBounds(180, 20, 80, 36);
+        JButton newBill = new JButton("New Bill");
+        JButton addProduct = new JButton("Add Product");
+        JButton availableStock = new JButton("Available Product");
+        JButton updateStock = new JButton("Update Product");
+        JButton sales = new JButton("Sales");
+        JButton about = new JButton("About");
+        JButton signOut = new JButton("Sign Out");
 
         /**** New bill start ****/
         int count = Functions.recordCount("products.txt");
@@ -300,6 +293,7 @@ public class Access extends JFrame {
                     }
                     myReader.close();
                 } catch (FileNotFoundException exception) {
+                    JOptionPane.showMessageDialog(availableStock, "File not found");
                     exception.printStackTrace();
                 }
                 if (quantity != 0.0) {
@@ -337,7 +331,8 @@ public class Access extends JFrame {
 
         JButton newBillClearButton = new JButton("Clear");
         newBillClearButton.setBounds(20, 510, 250, 32);
-        newBillClearButton.setFont(new Font("Poppins", Font.PLAIN, 14));
+        newBillClearButton.setFont(customFont);
+        //newBillClearButton.setBackground(Color.BLACK);
         newBillClearButton.setForeground(Color.BLACK);
         newBillClearButton.setFocusPainted(false);
         newBillClearButton.setRolloverEnabled(false);
@@ -349,6 +344,37 @@ public class Access extends JFrame {
             tableModel.setRowCount(0);
             newBillProductQuantityField.setText("");
             newBillProductNameField.setSelectedIndex(0);
+        });
+
+        newBill.setFont(customFont);
+        newBill.setUI(new BasicButtonUI());
+        newBill.setBorderPainted(false);
+        newBill.setBackground(Color.WHITE);
+        newBill.setFocusPainted(false);
+        newBill.setRolloverEnabled(false);
+        newBill.setBounds(20, 20, 160, 36);
+        newBill.addActionListener(e -> {
+            newBillPanel.setVisible(true);
+            addProductPanel.setVisible(false);
+            availableStockPanel.setVisible(false);
+            updateStockPanel.setVisible(false);
+            salesPanel.setVisible(false);
+            aboutPanel.setVisible(false);
+
+            billData = new String[1000][4];
+            noOfBillDataRow = 0;
+            productQuantity = new float[1000];
+
+            tableModel.setRowCount(0);
+            newBillProductQuantityField.setText("");
+            newBillProductNameField.setSelectedIndex(0);
+
+            newBillProductNameField.removeAllItems();
+            newBillProductNameField.addItem("---Select---");
+            String[] productNameData = Functions.getColumnData("products.txt", 0);
+            for (int i = 0; i < Functions.recordCount("products.txt"); i++) {
+                newBillProductNameField.addItem(productNameData[i]);
+            }
         });
 
         /**** Add product start ****/
@@ -413,6 +439,21 @@ public class Access extends JFrame {
             productStockField.setText("");
         });
 
+        addProduct.setFont(customFont);
+        addProduct.setUI(new BasicButtonUI());
+        addProduct.setBorderPainted(false);
+        addProduct.setBackground(Color.WHITE);
+        addProduct.setFocusPainted(false);
+        addProduct.setRolloverEnabled(false);
+        addProduct.setBounds(20, 70, 160, 36);
+        addProduct.addActionListener(e -> {
+            newBillPanel.setVisible(false);
+            addProductPanel.setVisible(true);
+            availableStockPanel.setVisible(false);
+            updateStockPanel.setVisible(false);
+            salesPanel.setVisible(false);
+            aboutPanel.setVisible(false);
+        });
         addProductButton.addActionListener(e -> {
             Scanner sc = new Scanner(System.in);
             String name = productNameField.getText();
@@ -427,6 +468,7 @@ public class Access extends JFrame {
                     System.out.println("File created: " + myObj.getName());
                 }
             } catch (IOException exception) {
+                JOptionPane.showMessageDialog(addProduct, "Unable to add product");
                 exception.printStackTrace();
             }
             /****** writing in file *******/
@@ -441,6 +483,7 @@ public class Access extends JFrame {
                 productPriceField.setText("");
                 productStockField.setText("");
             } catch (IOException exception) {
+                JOptionPane.showMessageDialog(addProduct, "Error adding product");
                 exception.printStackTrace();
             }
         });
@@ -472,6 +515,33 @@ public class Access extends JFrame {
 
         JScrollPane availableStockScrollPane = new JScrollPane(availableStockTable);
         availableStockScrollPane.setBounds(20, 65, 545, 450);
+
+        availableStock.setFont(customFont);
+        availableStock.setUI(new BasicButtonUI());
+        availableStock.setBorderPainted(false);
+        availableStock.setBackground(Color.WHITE);
+        availableStock.setFocusPainted(false);
+        availableStock.setRolloverEnabled(false);
+        availableStock.setBounds(20, 120, 160, 36);
+        availableStock.addActionListener(e -> {
+            newBillPanel.setVisible(false);
+            addProductPanel.setVisible(false);
+            availableStockPanel.setVisible(true);
+            updateStockPanel.setVisible(false);
+            salesPanel.setVisible(false);
+            aboutPanel.setVisible(false);
+
+            availableStockTableModel.setRowCount(0);
+            String[][] stockData = Functions.fileData("products.txt", 4);
+            for (int i = 0; i < Functions.recordCount("products.txt"); i++) {
+                availableStockTableModel.insertRow(availableStockTableModel.getRowCount(), new Object[]{
+                        stockData[i][0],
+                        stockData[i][1],
+                        stockData[i][2],
+                        stockData[i][3]
+                });
+            }
+        });
 
         /**** Update stock start ****/
         JLabel updateStockTitle = new JLabel("Update Stock");
@@ -526,6 +596,39 @@ public class Access extends JFrame {
         JButton updateStockSelectButton = new JButton("Select");
         JButton updateStockDeleteButton = new JButton("Delete");
         JButton updateStockUpdateButton = new JButton("Update");
+
+        updateStock.setFont(customFont);
+        updateStock.setUI(new BasicButtonUI());
+        updateStock.setBorderPainted(false);
+        updateStock.setBackground(Color.WHITE);
+        updateStock.setFocusPainted(false);
+        updateStock.setRolloverEnabled(false);
+        updateStock.setBounds(20, 170, 160, 36);
+        updateStock.addActionListener(e -> {
+            newBillPanel.setVisible(false);
+            addProductPanel.setVisible(false);
+            availableStockPanel.setVisible(false);
+            updateStockPanel.setVisible(true);
+            salesPanel.setVisible(false);
+            aboutPanel.setVisible(false);
+
+            updateStockProductIdField.setSelectedIndex(0);
+            updateStockProductNameField.setText("");
+            updateStockProductPriceField.setText("");
+            updateStockProductStockField.setText("");
+            updateStockProductNameField.setEditable(false);
+            updateStockProductPriceField.setEditable(false);
+            updateStockProductStockField.setEditable(false);
+            updateStockDeleteButton.setEnabled(false);
+            updateStockUpdateButton.setEnabled(false);
+
+            updateStockProductIdField.removeAllItems();
+            updateStockProductIdField.addItem("---Select---");
+            String[] productIdData = Functions.getColumnData("products.txt", 1);
+            for (int i = 0; i < Functions.recordCount("products.txt"); i++) {
+                updateStockProductIdField.addItem(productIdData[i]);
+            }
+        });
 
         updateStockDeleteButton.setBounds(20, 365, 250, 36);
         updateStockDeleteButton.setFont(customFont);
@@ -672,7 +775,7 @@ public class Access extends JFrame {
                 }
                 myReader.close();
             } catch (FileNotFoundException exception) {
-                //JOptionPane.showMessageDialog(availableStock, "File not found");
+                JOptionPane.showMessageDialog(availableStock, "File not found");
                 exception.printStackTrace();
             }
         });
@@ -680,6 +783,7 @@ public class Access extends JFrame {
 
         /**** Sales start ****/
         String[] salesSearchByFieldData = {"---Select---", "Bill No", "Customer Name", "Phone NO"};
+
         JLabel salesTitle = new JLabel("Sales");
         salesTitle.setBounds(20, 20, 360, 25);
         salesTitle.setFont(new Font("Poppins", Font.BOLD, 20));
@@ -742,128 +846,33 @@ public class Access extends JFrame {
         salesUpdateButton.setRolloverEnabled(false);
         salesUpdateButton.setEnabled(false);
 
-        select.addActionListener(e -> {
-            int searchBy = selectFunc.getSelectedIndex();
 
-            switch (searchBy){
-                case 0:
-                    JOptionPane.showMessageDialog(salesPanel, "Please select search by options");
-                    break;
-                case 1:// new bill
-                    newBillPanel.setVisible(true);
-                    addProductPanel.setVisible(false);
-                    availableStockPanel.setVisible(false);
-                    updateStockPanel.setVisible(false);
-                    salesPanel.setVisible(false);
-                    aboutPanel.setVisible(false);
+        sales.setFont(customFont);
+        sales.setUI(new BasicButtonUI());
+        sales.setBorderPainted(false);
+        sales.setBackground(Color.WHITE);
+        sales.setFocusPainted(false);
+        sales.setRolloverEnabled(false);
+        sales.setBounds(20, 220, 160, 36);
+        sales.addActionListener(e -> {
+            newBillPanel.setVisible(false);
+            addProductPanel.setVisible(false);
+            availableStockPanel.setVisible(false);
+            updateStockPanel.setVisible(false);
+            salesPanel.setVisible(true);
+            aboutPanel.setVisible(false);
 
-                    billData = new String[1000][4];
-                    noOfBillDataRow = 0;
-                    productQuantity = new float[1000];
-
-                    tableModel.setRowCount(0);
-                    newBillProductQuantityField.setText("");
-                    newBillProductNameField.setSelectedIndex(0);
-
-                    newBillProductNameField.removeAllItems();
-                    newBillProductNameField.addItem("---Select---");
-                    String[] productNameData = Functions.getColumnData("products.txt", 0);
-                    for (int i = 0; i < Functions.recordCount("products.txt"); i++) {
-                        newBillProductNameField.addItem(productNameData[i]);
-                    }
-                    break;
-                case 2://add product
-                    newBillPanel.setVisible(false);
-                    addProductPanel.setVisible(true);
-                    availableStockPanel.setVisible(false);
-                    updateStockPanel.setVisible(false);
-                    salesPanel.setVisible(false);
-                    aboutPanel.setVisible(false);
-                    break;
-                case 3://available product
-                    newBillPanel.setVisible(false);
-                    addProductPanel.setVisible(false);
-                    availableStockPanel.setVisible(true);
-                    updateStockPanel.setVisible(false);
-                    salesPanel.setVisible(false);
-                    aboutPanel.setVisible(false);
-
-                    availableStockTableModel.setRowCount(0);
-                    String[][] stockData = Functions.fileData("products.txt", 4);
-                    for (int i = 0; i < Functions.recordCount("products.txt"); i++) {
-                        availableStockTableModel.insertRow(availableStockTableModel.getRowCount(), new Object[]{
-                                stockData[i][0],
-                                stockData[i][1],
-                                stockData[i][2],
-                                stockData[i][3]
-                        });
-                    }
-                    break;
-                case 4://update product
-                    newBillPanel.setVisible(false);
-                    addProductPanel.setVisible(false);
-                    availableStockPanel.setVisible(false);
-                    updateStockPanel.setVisible(true);
-                    salesPanel.setVisible(false);
-                    aboutPanel.setVisible(false);
-
-                    updateStockProductIdField.setSelectedIndex(0);
-                    updateStockProductNameField.setText("");
-                    updateStockProductPriceField.setText("");
-                    updateStockProductStockField.setText("");
-                    updateStockProductNameField.setEditable(false);
-                    updateStockProductPriceField.setEditable(false);
-                    updateStockProductStockField.setEditable(false);
-                    updateStockDeleteButton.setEnabled(false);
-                    updateStockUpdateButton.setEnabled(false);
-
-                    updateStockProductIdField.removeAllItems();
-                    updateStockProductIdField.addItem("---Select---");
-                    String[] productIdData = Functions.getColumnData("products.txt", 1);
-                    for (int i = 0; i < Functions.recordCount("products.txt"); i++) {
-                        updateStockProductIdField.addItem(productIdData[i]);
-                    }
-                    break;
-                case 5://sales
-                    newBillPanel.setVisible(false);
-                    addProductPanel.setVisible(false);
-                    availableStockPanel.setVisible(false);
-                    updateStockPanel.setVisible(false);
-                    salesPanel.setVisible(true);
-                    aboutPanel.setVisible(false);
-
-                    salesTableModel.setRowCount(0);
-                    int salesRowCount = Functions.recordCount("sales.txt");
-                    String[][] salesData = Functions.fileData("sales.txt", 5);
-                    for (int i = 0; i < salesRowCount; i++) {
-                        salesTableModel.insertRow(salesTableModel.getRowCount(), new Object[]{
-                                salesData[i][0],
-                                salesData[i][1],
-                                salesData[i][2],
-                                salesData[i][3],
-                                salesData[i][4],
-                        });
-                    }
-                    break;
-                case 6://about
-                    newBillPanel.setVisible(false);
-                    addProductPanel.setVisible(false);
-                    availableStockPanel.setVisible(false);
-                    updateStockPanel.setVisible(false);
-                    salesPanel.setVisible(false);
-                    aboutPanel.setVisible(true);
-                    break;
-                case 7://sign out
-                    dashboardPanel.setVisible(false);
-                    accessPanel.setVisible(true);
-
-                    newBillPanel.setVisible(false);
-                    addProductPanel.setVisible(false);
-                    availableStockPanel.setVisible(false);
-                    updateStockPanel.setVisible(false);
-                    salesPanel.setVisible(false);
-                    aboutPanel.setVisible(false);
-                    break;
+            salesTableModel.setRowCount(0);
+            int salesRowCount = Functions.recordCount("sales.txt");
+            String[][] salesData = Functions.fileData("sales.txt", 5);
+            for (int i = 0; i < salesRowCount; i++) {
+                salesTableModel.insertRow(salesTableModel.getRowCount(), new Object[]{
+                        salesData[i][0],
+                        salesData[i][1],
+                        salesData[i][2],
+                        salesData[i][3],
+                        salesData[i][4],
+                });
             }
         });
 
@@ -928,19 +937,62 @@ public class Access extends JFrame {
 //        Sales end
 
         /**** About Start ****/
+        about.setFont(customFont);
+        about.setUI(new BasicButtonUI());
+        about.setBorderPainted(false);
+        about.setBackground(Color.WHITE);
+        about.setFocusPainted(false);
+        about.setRolloverEnabled(false);
+        about.setBounds(20, 270, 160, 36);
+        about.addActionListener(e -> {
+            newBillPanel.setVisible(false);
+            addProductPanel.setVisible(false);
+            availableStockPanel.setVisible(false);
+            updateStockPanel.setVisible(false);
+            salesPanel.setVisible(false);
+            aboutPanel.setVisible(true);
+        });
+
         JTextPane aboutTextPane = new JTextPane();
-        aboutTextPane.setBounds(0, 0, 600, 600);
+        aboutTextPane.setBounds(0, 0, 800, 580);
+        aboutTextPane.setBackground(new Color(0, 0, 0, 0));
         aboutTextPane.setFont(customFont);
-        aboutTextPane.setMargin(new Insets(20, 20, 20, 20));
+        aboutTextPane.setMargin(new Insets(0, 100, 50, 100));
         aboutTextPane.setEditable(false);
         aboutTextPane.setText("\n\n\n\nDEVELOPED BY\n\n" +
                 "\tTan Qianqian\tSWE2009514\n\n" + "\tLiu Aofan\t\tSWE2009510\n\n\n\n\n" +
                 "WARNING!\n\n" + "\tThis is for internal staff of B-V Mart! If you are customers, go to \n\tthe customers version!\n");
 
-        /****** side menu ******/
+        /****** set sign out ******/
+        signOut.setFont(customFont);
+        signOut.setUI(new BasicButtonUI());
+        signOut.setBorderPainted(false);
+        signOut.setBackground(Color.WHITE);
+        signOut.setForeground(Color.RED);
+        signOut.setFocusPainted(false);
+        signOut.setRolloverEnabled(false);
+        signOut.setBounds(20, 320, 160, 36);
+        signOut.addActionListener(e -> {
+            dashboardPanel.setVisible(false);
+            accessPanel.setVisible(true);
 
-        sideMenu.add(selectFunc);
-        sideMenu.add(select);
+            newBillPanel.setVisible(false);
+            addProductPanel.setVisible(false);
+            availableStockPanel.setVisible(false);
+            updateStockPanel.setVisible(false);
+            salesPanel.setVisible(false);
+            aboutPanel.setVisible(false);
+        });
+
+        /****** side menu ******/
+        sideMenu.add(newBill);
+        sideMenu.add(addProduct);
+        sideMenu.add(availableStock);
+        sideMenu.add(updateStock);
+        sideMenu.add(sales);
+        sideMenu.add(about);
+        sideMenu.add(signOut);
+
 
         dashboardContentLayeredPane.add(newBillPanel);
         dashboardContentLayeredPane.add(addProductPanel);
@@ -1012,12 +1064,13 @@ public class Access extends JFrame {
         accessPanel.add(panel3, BorderLayout.WEST);
         accessPanel.add(panel4, BorderLayout.EAST);
 
-        dashboardPanel.add(sideMenu, BorderLayout.WEST);
-        dashboardPanel.add(dashboardContentLayeredPane, BorderLayout.EAST);
+        dashboardPanel.add(sideMenu, BorderLayout.NORTH);
+        dashboardPanel.add(dashboardContentLayeredPane, BorderLayout.SOUTH);
 
         this.add(containerLayeredPane);
         this.setVisible(true);
     }
+
 
     public static void newBillInfo() {
         float total = 0;
