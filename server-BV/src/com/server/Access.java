@@ -16,13 +16,8 @@ public class Access extends JFrame {
     static String[][] billData = new String[1000][4];
     int noOfBillDataRow = 0;
     static float[] productQuantity = new float[1000];
-    Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets\\fonts\\DancingScript-SemiBold.ttf")).deriveFont(36f);
-    static Font customFont;
 
-
-
-
-    Access() throws IOException, FontFormatException {
+    Access() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -32,16 +27,6 @@ public class Access extends JFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        {
-            try {
-                customFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets\\fonts\\Geologica-SemiBold.ttf")).deriveFont(14f);
-            } catch (FontFormatException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -82,33 +67,32 @@ public class Access extends JFrame {
 //        #d6d9df
         signInPanel.setBackground(new Color(214, 217, 223));
 
-
         /**** SignInPanel Component ****/
         JLabel titleLabel = new JLabel("B-V Mart");
-        titleLabel.setBounds(240, 0, 200, 32);
-        titleLabel.setFont(titleFont);
+        titleLabel.setBounds(240, 40, 200, 32);
+        titleLabel.setFont(new Font("Poppins", Font.BOLD, 24));
 
         JLabel usernameLabel = new JLabel("Username");
         usernameLabel.setBounds(170, 80, 200, 25);
         usernameLabel.setForeground(Color.GRAY);
-        usernameLabel.setFont(customFont);
+        usernameLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField usernameField = new JTextField(50);
         usernameField.setBounds(170, 110, 260, 36);
-        usernameField.setFont(customFont);
+        usernameField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(170, 160, 200, 25);
         passwordLabel.setForeground(Color.GRAY);
-        passwordLabel.setFont(customFont);
+        passwordLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(170, 190, 260, 36);
-        passwordField.setFont(customFont);
+        passwordField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JButton signinButton = new JButton("Sign In");
         signinButton.setBounds(220, 260, 160, 36);
-        signinButton.setFont(customFont);
+        signinButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         signinButton.setForeground(Color.BLACK);
         signinButton.setFocusPainted(false);
         signinButton.setRolloverEnabled(false);
@@ -177,7 +161,6 @@ public class Access extends JFrame {
         newBillPanel.setVisible(false);
 
         JPanel addProductPanel = new JPanel();
-//        居中addProductPanel
         addProductPanel.setLayout(null);
         addProductPanel.setBounds(0, 50, 800, 550);
         addProductPanel.setVisible(false);
@@ -227,11 +210,11 @@ public class Access extends JFrame {
         JLabel newBillProductNameLabel = new JLabel("Product name");
         newBillProductNameLabel.setBounds(20, 65, 250, 25);
         newBillProductNameLabel.setForeground(Color.GRAY);
-        newBillProductNameLabel.setFont(customFont);
+        newBillProductNameLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JComboBox newBillProductNameField = new JComboBox(new String[]{"---Select---"});
         newBillProductNameField.setBounds(20, 85, 250, 36);
-        newBillProductNameField.setFont(customFont);
+        newBillProductNameField.setFont(new Font("Poppins", Font.PLAIN, 14));
         newBillProductNameField.setBackground(Color.WHITE);
         newBillProductNameField.setEditable(true);
         newBillProductNameField.setSelectedIndex(0);
@@ -239,18 +222,18 @@ public class Access extends JFrame {
         JLabel newBillProductQuantityLabel = new JLabel("Quantity");
         newBillProductQuantityLabel.setBounds(280, 65, 250, 25);
         newBillProductQuantityLabel.setForeground(Color.GRAY);
-        newBillProductQuantityLabel.setFont(customFont);
+        newBillProductQuantityLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField newBillProductQuantityField = new JTextField(50);
         newBillProductQuantityField.setBounds(280, 85, 250, 36);
-        newBillProductQuantityField.setFont(customFont);
+        newBillProductQuantityField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JLabel newBillTotalLabel = new JLabel("Total: 0");
         newBillTotalLabel.setBounds(280, 510, 250, 32);
         newBillTotalLabel.setOpaque(true);
         newBillTotalLabel.setBackground(Color.WHITE);
         newBillTotalLabel.setForeground(Color.BLACK);
-        newBillTotalLabel.setFont(customFont);
+        newBillTotalLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Product");
@@ -259,8 +242,8 @@ public class Access extends JFrame {
         tableModel.addColumn("Amount");
 
         JTable newBillTable = new JTable(tableModel);
-        newBillTable.getTableHeader().setFont(customFont);
-        newBillTable.setFont(customFont);
+        newBillTable.getTableHeader().setFont(new Font("Poppins", Font.PLAIN, 14));
+        newBillTable.setFont(new Font("Poppins", Font.PLAIN, 14));
         newBillTable.setShowGrid(false);
         newBillTable.setRowHeight(newBillTable.getRowHeight() + 10);
         DefaultTableCellRenderer defaultHeaderRenderer = (DefaultTableCellRenderer) newBillTable.getTableHeader().getDefaultRenderer();
@@ -275,7 +258,7 @@ public class Access extends JFrame {
 
         JButton newBillAddButton = new JButton("Add");
         newBillAddButton.setBounds(20, 140, 250, 36);
-        newBillAddButton.setFont(customFont);
+        newBillAddButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         newBillAddButton.setForeground(Color.DARK_GRAY);
         newBillAddButton.setFocusPainted(false);
         newBillAddButton.setRolloverEnabled(false);
@@ -327,7 +310,7 @@ public class Access extends JFrame {
 
         JButton newBillButton = new JButton("Create bill");
         newBillButton.setBounds(280, 140, 250, 36);
-        newBillButton.setFont(customFont);
+        newBillButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         newBillButton.setForeground(Color.BLACK);
         newBillButton.setFocusPainted(false);
         newBillButton.setRolloverEnabled(false);
@@ -359,42 +342,42 @@ public class Access extends JFrame {
         JLabel productNameLabel = new JLabel("Product name");
         productNameLabel.setBounds(20, 65, 200, 25);
         productNameLabel.setForeground(Color.GRAY);
-        productNameLabel.setFont(customFont);
+        productNameLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField productNameField = new JTextField(50);
         productNameField.setBounds(20, 85, 460, 36);
-        productNameField.setFont(customFont);
+        productNameField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JLabel productIdLabel = new JLabel("Product id");
         productIdLabel.setBounds(20, 140, 200, 25);
         productIdLabel.setForeground(Color.GRAY);
-        productIdLabel.setFont(customFont);
+        productIdLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField productIdField = new JTextField(50);
         productIdField.setBounds(20, 160, 460, 36);
-        productIdField.setFont(customFont);
+        productIdField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JLabel productPriceLabel = new JLabel("Product price");
         productPriceLabel.setBounds(20, 215, 200, 25);
         productPriceLabel.setForeground(Color.GRAY);
-        productPriceLabel.setFont(customFont);
+        productPriceLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField productPriceField = new JTextField(50);
         productPriceField.setBounds(20, 235, 460, 36);
-        productPriceField.setFont(customFont);
+        productPriceField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JLabel productStockLabel = new JLabel("Product stock");
         productStockLabel.setBounds(20, 290, 200, 25);
         productStockLabel.setForeground(Color.GRAY);
-        productStockLabel.setFont(customFont);
+        productStockLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField productStockField = new JTextField(50);
         productStockField.setBounds(20, 310, 460, 36);
-        productStockField.setFont(customFont);
+        productStockField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JButton addProductButton = new JButton("Add Product");
         addProductButton.setBounds(20, 365, 460, 36);
-        addProductButton.setFont(customFont);
+        addProductButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         addProductButton.setBackground(Color.BLACK);
         addProductButton.setForeground(Color.BLACK);
         addProductButton.setFocusPainted(false);
@@ -402,7 +385,7 @@ public class Access extends JFrame {
 
         JButton addProductClearButton = new JButton("Clear Field");
         addProductClearButton.setBounds(20, 420, 460, 36);
-        addProductClearButton.setFont(customFont);
+        addProductClearButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         addProductClearButton.setForeground(Color.BLACK);
         addProductClearButton.setFocusPainted(false);
         addProductClearButton.setRolloverEnabled(false);
@@ -459,8 +442,8 @@ public class Access extends JFrame {
         availableStockTableModel.addColumn("Stock");
 
         JTable availableStockTable = new JTable(availableStockTableModel);
-        availableStockTable.getTableHeader().setFont(customFont);
-        availableStockTable.setFont(customFont);
+        availableStockTable.getTableHeader().setFont(new Font("Poppins", Font.PLAIN, 14));
+        availableStockTable.setFont(new Font("Poppins", Font.PLAIN, 14));
         availableStockTable.setShowGrid(false);
         availableStockTable.setRowHeight(availableStockTable.getRowHeight() + 10);
         DefaultTableCellRenderer availableStockHeaderRenderer = (DefaultTableCellRenderer) availableStockTable.getTableHeader().getDefaultRenderer();
@@ -481,11 +464,11 @@ public class Access extends JFrame {
         JLabel updateStockProductIdLabel = new JLabel("Product id");
         updateStockProductIdLabel.setBounds(20, 65, 250, 25);
         updateStockProductIdLabel.setForeground(Color.GRAY);
-        updateStockProductIdLabel.setFont(customFont);
+        updateStockProductIdLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JComboBox updateStockProductIdField = new JComboBox(new String[]{"---Select---"});
         updateStockProductIdField.setBounds(20, 85, 250, 36);
-        updateStockProductIdField.setFont(customFont);
+        updateStockProductIdField.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockProductIdField.setBackground(Color.WHITE);
         updateStockProductIdField.setEditable(true);
         updateStockProductIdField.setSelectedIndex(0);
@@ -493,33 +476,33 @@ public class Access extends JFrame {
         JLabel updateStockProductNameLabel = new JLabel("Product name");
         updateStockProductNameLabel.setBounds(20, 140, 250, 25);
         updateStockProductNameLabel.setForeground(Color.GRAY);
-        updateStockProductNameLabel.setFont(customFont);
+        updateStockProductNameLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField updateStockProductNameField = new JTextField(50);
         updateStockProductNameField.setBounds(20, 160, 250, 36);
-        updateStockProductNameField.setFont(customFont);
+        updateStockProductNameField.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockProductNameField.setEditable(false);
         updateStockProductNameField.setBackground(Color.WHITE);
 
         JLabel updateStockProductPriceLabel = new JLabel("Price");
         updateStockProductPriceLabel.setBounds(20, 215, 250, 25);
         updateStockProductPriceLabel.setForeground(Color.GRAY);
-        updateStockProductPriceLabel.setFont(customFont);
+        updateStockProductPriceLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField updateStockProductPriceField = new JTextField(50);
         updateStockProductPriceField.setBounds(20, 235, 250, 36);
-        updateStockProductPriceField.setFont(customFont);
+        updateStockProductPriceField.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockProductPriceField.setEditable(false);
         updateStockProductPriceField.setBackground(Color.WHITE);
 
         JLabel updateStockProductStockLabel = new JLabel("Stock");
         updateStockProductStockLabel.setBounds(20, 290, 250, 25);
         updateStockProductStockLabel.setForeground(Color.GRAY);
-        updateStockProductStockLabel.setFont(customFont);
+        updateStockProductStockLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField updateStockProductStockField = new JTextField(50);
         updateStockProductStockField.setBounds(20, 310, 250, 36);
-        updateStockProductStockField.setFont(customFont);
+        updateStockProductStockField.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockProductStockField.setEditable(false);
         updateStockProductStockField.setBackground(Color.WHITE);
 
@@ -528,7 +511,7 @@ public class Access extends JFrame {
         JButton updateStockUpdateButton = new JButton("Update");
 
         updateStockDeleteButton.setBounds(20, 365, 250, 36);
-        updateStockDeleteButton.setFont(customFont);
+        updateStockDeleteButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockDeleteButton.setForeground(Color.BLACK);
         updateStockDeleteButton.setFocusPainted(false);
         updateStockDeleteButton.setRolloverEnabled(false);
@@ -582,7 +565,7 @@ public class Access extends JFrame {
         });
 
         updateStockUpdateButton.setBounds(280, 365, 250, 36);
-        updateStockUpdateButton.setFont(customFont);
+        updateStockUpdateButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockUpdateButton.setForeground(Color.BLACK);
         updateStockUpdateButton.setFocusPainted(false);
         updateStockUpdateButton.setRolloverEnabled(false);
@@ -638,7 +621,7 @@ public class Access extends JFrame {
         });
 
         updateStockSelectButton.setBounds(280, 85, 250, 36);
-        updateStockSelectButton.setFont(customFont);
+        updateStockSelectButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         updateStockSelectButton.setForeground(Color.BLACK);
         updateStockSelectButton.setFocusPainted(false);
         updateStockSelectButton.setRolloverEnabled(false);
@@ -687,11 +670,11 @@ public class Access extends JFrame {
         JLabel salesSearchByLabel = new JLabel("Search by");
         salesSearchByLabel.setBounds(20, 65, 250, 25);
         salesSearchByLabel.setForeground(Color.GRAY);
-        salesSearchByLabel.setFont(customFont);
+        salesSearchByLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JComboBox salesSearchByField = new JComboBox(salesSearchByFieldData);
         salesSearchByField.setBounds(20, 85, 250, 36);
-        salesSearchByField.setFont(customFont);
+        salesSearchByField.setFont(new Font("Poppins", Font.PLAIN, 14));
         salesSearchByField.setBackground(Color.WHITE);
         salesSearchByField.setEditable(false);
         salesSearchByField.setSelectedIndex(0);
@@ -699,15 +682,15 @@ public class Access extends JFrame {
         JLabel salesSearchBoxLabel = new JLabel("Search");
         salesSearchBoxLabel.setBounds(20, 130, 250, 25);
         salesSearchBoxLabel.setForeground(Color.GRAY);
-        salesSearchBoxLabel.setFont(customFont);
+        salesSearchBoxLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField salesSearchBoxField = new JTextField(50);
         salesSearchBoxField.setBounds(20, 150, 250, 36);
-        salesSearchBoxField.setFont(customFont);
+        salesSearchBoxField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JButton salesSearchButton = new JButton("Search");
         salesSearchButton.setBounds(280, 150, 250, 36);
-        salesSearchButton.setFont(customFont);
+        salesSearchButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         salesSearchButton.setForeground(Color.BLACK);
         salesSearchButton.setFocusPainted(false);
         salesSearchButton.setRolloverEnabled(false);
@@ -720,8 +703,8 @@ public class Access extends JFrame {
         salesTableModel.addColumn("Name");
 
         JTable salesTable = new JTable(salesTableModel);
-        salesTable.getTableHeader().setFont(customFont);
-        salesTable.setFont(customFont);
+        salesTable.getTableHeader().setFont(new Font("Poppins", Font.PLAIN, 14));
+        salesTable.setFont(new Font("Poppins", Font.PLAIN, 14));
         salesTable.setShowGrid(false);
         salesTable.setRowHeight(salesTable.getRowHeight() + 10);
         DefaultTableCellRenderer salesDefaultHeaderRenderer = (DefaultTableCellRenderer) salesTable.getTableHeader().getDefaultRenderer();
@@ -736,7 +719,7 @@ public class Access extends JFrame {
 
         JButton salesUpdateButton = new JButton("Update");
         salesUpdateButton.setBounds(20, 505, 250, 36);
-        salesUpdateButton.setFont(customFont);
+        salesUpdateButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         salesUpdateButton.setForeground(Color.BLACK);
         salesUpdateButton.setFocusPainted(false);
         salesUpdateButton.setRolloverEnabled(false);
@@ -930,7 +913,7 @@ public class Access extends JFrame {
         /**** About Start ****/
         JTextPane aboutTextPane = new JTextPane();
         aboutTextPane.setBounds(0, 0, 600, 600);
-        aboutTextPane.setFont(customFont);
+        aboutTextPane.setFont(new Font("Poppins", Font.PLAIN, 14));
         aboutTextPane.setMargin(new Insets(20, 20, 20, 20));
         aboutTextPane.setEditable(false);
         aboutTextPane.setText("\n\n\n\nDEVELOPED BY\n\n" +
@@ -1035,11 +1018,11 @@ public class Access extends JFrame {
         JLabel customerNameLabel = new JLabel("Customer name");
         customerNameLabel.setBounds(20, 65, 250, 25);
         customerNameLabel.setForeground(Color.GRAY);
-        customerNameLabel.setFont(customFont);
+        customerNameLabel.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         JTextField customerNameField = new JTextField(50);
         customerNameField.setBounds(20, 85, 250, 36);
-        customerNameField.setFont(customFont);
+        customerNameField.setFont(new Font("Poppins", Font.PLAIN, 14));
 
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Product");
@@ -1048,8 +1031,8 @@ public class Access extends JFrame {
         tableModel.addColumn("Amount");
 
         JTable customerInfoTable = new JTable(tableModel);
-        customerInfoTable.getTableHeader().setFont(customFont);
-        customerInfoTable.setFont(customFont);
+        customerInfoTable.getTableHeader().setFont(new Font("Poppins", Font.PLAIN, 14));
+        customerInfoTable.setFont(new Font("Poppins", Font.PLAIN, 14));
         customerInfoTable.setShowGrid(false);
         customerInfoTable.setRowHeight(customerInfoTable.getRowHeight() + 10);
         DefaultTableCellRenderer defaultHeaderRenderer = (DefaultTableCellRenderer) customerInfoTable.getTableHeader().getDefaultRenderer();
@@ -1072,7 +1055,7 @@ public class Access extends JFrame {
 
         JButton saveButton = new JButton("Save");
         saveButton.setBounds(20, 510, 250, 36);
-        saveButton.setFont(customFont);
+        saveButton.setFont(new Font("Poppins", Font.PLAIN, 14));
         saveButton.setBackground(Color.BLACK);
         saveButton.setForeground(Color.BLACK);
         saveButton.setFocusPainted(false);
