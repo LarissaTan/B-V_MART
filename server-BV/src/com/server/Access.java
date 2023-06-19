@@ -17,8 +17,10 @@ public class Access extends JFrame {
     static String[][] billData = new String[1000][4];
     int noOfBillDataRow = 0;
     static float[] productQuantity = new float[1000];
+
     Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/DancingScript-SemiBold.ttf")).deriveFont(36f);
     static Font customFont;
+
 
 
 
@@ -178,6 +180,7 @@ public class Access extends JFrame {
         newBillPanel.setVisible(false);
 
         JPanel addProductPanel = new JPanel();
+//        居中addProductPanel
         addProductPanel.setLayout(null);
         addProductPanel.setBounds(0, 20, 800, 580);
         addProductPanel.setVisible(false);
