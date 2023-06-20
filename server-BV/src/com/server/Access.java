@@ -1121,7 +1121,7 @@ public class Access extends JFrame {
         float finalTotal = total;
         saveButton.addActionListener(e -> {
             if (!customerNameField.getText().equals("")) {
-                Functions.writeTxt(frame, (int) finalTotal,customerNameField,billData,productQuantity);
+                Functions.createBills(frame, (int) finalTotal,customerNameField,billData,productQuantity);
             } else if (customerNameField.getText().equals("")) {
                 JOptionPane.showMessageDialog(frame, "Please enter customer name");
             }

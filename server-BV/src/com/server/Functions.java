@@ -92,7 +92,7 @@ public class Functions {
         return searchedData;
     }
 
-    public static void writeTxt(Frame frame, Integer finalTotal,JTextField customerNameField,String[][] billData,float[] productQuantity){
+    public static void createBills(Frame frame, Integer finalTotal,JTextField customerNameField,String[][] billData,float[] productQuantity){
         /***** File creation ******/
         try {
             File myObj = new File("sales.txt");
