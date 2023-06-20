@@ -11,12 +11,11 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".activityAndNav.OrderDetailsActivity"/>
         <activity android:name=".activityAndNav.OrderFragment"
             tools:ignore="Instantiatable" />
         <activity android:name=".activityAndNav.PayActivity" />
-        <activity android:name=".activityAndNav.AccountFragment"
-            tools:ignore="Instantiatable" />
         <activity android:name=".activityAndNav.StoreGoodsActivity" />
         <activity android:name=".activityAndNav.RegisterActivity" />
         <activity android:name=".activityAndNav.HomeActivity" />
@@ -33,5 +32,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
 </manifest>
