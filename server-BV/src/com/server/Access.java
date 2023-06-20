@@ -176,28 +176,28 @@ public class Access extends JFrame {
 
         JPanel newBillPanel = new JPanel();
         newBillPanel.setLayout(null);
-        newBillPanel.setBounds(0, 20, 800, 580);
+        newBillPanel.setBounds(125, 0, 800, 580);
         newBillPanel.setVisible(false);
 
         JPanel addProductPanel = new JPanel();
 //        居中addProductPanel
         addProductPanel.setLayout(null);
-        addProductPanel.setBounds(0, 20, 800, 580);
+        addProductPanel.setBounds(140, 0, 800, 580);
         addProductPanel.setVisible(false);
 
         JPanel availableStockPanel = new JPanel();
         availableStockPanel.setLayout(null);
-        availableStockPanel.setBounds(0, 20, 800, 580);
+        availableStockPanel.setBounds(100, 0, 800, 580);
         availableStockPanel.setVisible(false);
 
         JPanel updateStockPanel = new JPanel();
         updateStockPanel.setLayout(null);
-        updateStockPanel.setBounds(0, 20, 800, 580);
+        updateStockPanel.setBounds(140, 0, 800, 580);
         updateStockPanel.setVisible(false);
 
         JPanel salesPanel = new JPanel();
         salesPanel.setLayout(null);
-        salesPanel.setBounds(0, 20, 800, 580);
+        salesPanel.setBounds(140, 0, 800, 580);
         salesPanel.setVisible(false);
 
         JPanel aboutPanel = new JPanel();
@@ -424,7 +424,6 @@ public class Access extends JFrame {
         JButton addProductButton = new JButton("Add Product");
         addProductButton.setBounds(20, 365, 460, 36);
         addProductButton.setFont(customFont);
-        addProductButton.setBackground(Color.BLACK);
         addProductButton.setForeground(Color.BLACK);
         addProductButton.setFocusPainted(false);
         addProductButton.setRolloverEnabled(false);
