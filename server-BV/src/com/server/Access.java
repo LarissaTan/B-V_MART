@@ -208,7 +208,7 @@ public class Access extends JFrame {
         JButton newBill = new JButton("New Bill");
         JButton addProduct = new JButton("Add Product");
         JButton availableStock = new JButton("Available Product");
-        JButton updateStock = new JButton("Update Product");
+        JButton updateStock = new JButton("Update Stock");
         JButton sales = new JButton("Sales");
         JButton about = new JButton("About");
         JButton signOut = new JButton("Sign Out");
@@ -221,30 +221,29 @@ public class Access extends JFrame {
         newBillTitle.setFont(new Font("Poppins", Font.BOLD, 20));
 
         JLabel newBillProductNameLabel = new JLabel("Product name");
-        newBillProductNameLabel.setBounds(20, 65, 250, 25);
+        newBillProductNameLabel.setBounds(20, 65, 150, 25);
         newBillProductNameLabel.setForeground(Color.GRAY);
         newBillProductNameLabel.setFont(customFont);
 
         JComboBox newBillProductNameField = new JComboBox(new String[]{"---Select---"});
-        newBillProductNameField.setBounds(20, 85, 250, 36);
+        newBillProductNameField.setBounds(20, 85, 150, 30);
         newBillProductNameField.setFont(customFont);
         newBillProductNameField.setBackground(Color.WHITE);
         newBillProductNameField.setEditable(true);
         newBillProductNameField.setSelectedIndex(0);
 
         JLabel newBillProductQuantityLabel = new JLabel("Quantity");
-        newBillProductQuantityLabel.setBounds(280, 65, 250, 25);
+        newBillProductQuantityLabel.setBounds(180, 65, 150, 25);
         newBillProductQuantityLabel.setForeground(Color.GRAY);
         newBillProductQuantityLabel.setFont(customFont);
 
         JTextField newBillProductQuantityField = new JTextField(50);
-        newBillProductQuantityField.setBounds(280, 85, 250, 36);
+        newBillProductQuantityField.setBounds(180, 85, 150, 30);
         newBillProductQuantityField.setFont(customFont);
 
         JLabel newBillTotalLabel = new JLabel("Total: 0");
-        newBillTotalLabel.setBounds(280, 510, 250, 32);
+        newBillTotalLabel.setBounds(40, 430, 200, 32);
         newBillTotalLabel.setOpaque(true);
-        newBillTotalLabel.setBackground(Color.WHITE);
         newBillTotalLabel.setForeground(Color.BLACK);
         newBillTotalLabel.setFont(customFont);
 
@@ -267,10 +266,10 @@ public class Access extends JFrame {
         newBillTable.getTableHeader().setDefaultRenderer(renderer);
 
         JScrollPane newBillScrollPane = new JScrollPane(newBillTable);
-        newBillScrollPane.setBounds(20, 195, 510, 295);
+        newBillScrollPane.setBounds(20, 130, 510, 280);
 
         JButton newBillAddButton = new JButton("Add");
-        newBillAddButton.setBounds(20, 140, 250, 36);
+        newBillAddButton.setBounds(350, 85, 80, 30);
         newBillAddButton.setFont(customFont);
         newBillAddButton.setForeground(Color.DARK_GRAY);
         newBillAddButton.setFocusPainted(false);
@@ -323,7 +322,7 @@ public class Access extends JFrame {
         });
 
         JButton newBillButton = new JButton("Create bill");
-        newBillButton.setBounds(280, 140, 250, 36);
+        newBillButton.setBounds(280, 430, 250, 30);
         newBillButton.setFont(customFont);
         newBillButton.setForeground(Color.BLACK);
         newBillButton.setFocusPainted(false);
@@ -333,7 +332,7 @@ public class Access extends JFrame {
         });
 
         JButton newBillClearButton = new JButton("Clear");
-        newBillClearButton.setBounds(20, 510, 250, 32);
+        newBillClearButton.setBounds(450, 85, 80, 30);
         newBillClearButton.setFont(customFont);
         //newBillClearButton.setBackground(Color.BLACK);
         newBillClearButton.setForeground(Color.BLACK);
