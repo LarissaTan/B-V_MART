@@ -784,35 +784,35 @@ public class Access extends JFrame {
 //        Update stock end
 
         /**** Sales start ****/
-        String[] salesSearchByFieldData = {"---Select---", "Bill No", "Customer Name", "Phone NO"};
+        String[] salesSearchByFieldData = {"---Select---", "Bill No", "Customer Name"};
 
         JLabel salesTitle = new JLabel("Sales");
         salesTitle.setBounds(20, 20, 360, 25);
         salesTitle.setFont(new Font("Poppins", Font.BOLD, 20));
 
         JLabel salesSearchByLabel = new JLabel("Search by");
-        salesSearchByLabel.setBounds(20, 65, 250, 25);
+        salesSearchByLabel.setBounds(20, 65, 150, 25);
         salesSearchByLabel.setForeground(Color.GRAY);
         salesSearchByLabel.setFont(customFont);
 
         JComboBox salesSearchByField = new JComboBox(salesSearchByFieldData);
-        salesSearchByField.setBounds(20, 85, 250, 36);
+        salesSearchByField.setBounds(20, 90, 150, 30);
         salesSearchByField.setFont(customFont);
         salesSearchByField.setBackground(Color.WHITE);
         salesSearchByField.setEditable(false);
         salesSearchByField.setSelectedIndex(0);
 
         JLabel salesSearchBoxLabel = new JLabel("Search");
-        salesSearchBoxLabel.setBounds(20, 130, 250, 25);
+        salesSearchBoxLabel.setBounds(200, 65, 150, 25);
         salesSearchBoxLabel.setForeground(Color.GRAY);
         salesSearchBoxLabel.setFont(customFont);
 
         JTextField salesSearchBoxField = new JTextField(50);
-        salesSearchBoxField.setBounds(20, 150, 250, 36);
+        salesSearchBoxField.setBounds(200, 90, 150, 30);
         salesSearchBoxField.setFont(customFont);
 
         JButton salesSearchButton = new JButton("Search");
-        salesSearchButton.setBounds(280, 150, 250, 36);
+        salesSearchButton.setBounds(380, 90, 100, 30);
         salesSearchButton.setFont(customFont);
         salesSearchButton.setForeground(Color.BLACK);
         salesSearchButton.setFocusPainted(false);
@@ -838,15 +838,7 @@ public class Access extends JFrame {
         salesTable.getTableHeader().setDefaultRenderer(salesRenderer);
 
         JScrollPane salesScrollPane = new JScrollPane(salesTable);
-        salesScrollPane.setBounds(20, 200, 510, 295);
-
-        JButton salesUpdateButton = new JButton("Update");
-        salesUpdateButton.setBounds(20, 505, 250, 36);
-        salesUpdateButton.setFont(customFont);
-        salesUpdateButton.setForeground(Color.BLACK);
-        salesUpdateButton.setFocusPainted(false);
-        salesUpdateButton.setRolloverEnabled(false);
-        salesUpdateButton.setEnabled(false);
+        salesScrollPane.setBounds(20, 140, 510, 355);
 
 
         sales.setFont(customFont);
@@ -883,7 +875,6 @@ public class Access extends JFrame {
             String salesSearchTableData = switch (searchBy) {
                 case 1 -> Functions.search("sales.txt", 0, salesSearchBoxField.getText());
                 case 2 -> Functions.search("sales.txt", 4, salesSearchBoxField.getText());
-                case 3 -> Functions.search("sales.txt", 5, salesSearchBoxField.getText());
                 default -> "";
             };
 
@@ -891,7 +882,6 @@ public class Access extends JFrame {
                 JOptionPane.showMessageDialog(salesPanel, "Please select search by options");
             } else if (salesSearchByField.getSelectedIndex() != 0 && !Objects.equals(salesSearchTableData, "")) {
                 salesTableModel.setRowCount(0);
-                salesUpdateButton.setEnabled(true);
             } else if (salesSearchBoxField.getText().equals("")) {
                 JOptionPane.showMessageDialog(salesPanel, "Search box can't be empty");
             } else {
@@ -904,8 +894,7 @@ public class Access extends JFrame {
                     salesSearchTableDataChunk[1],
                     salesSearchTableDataChunk[2],
                     salesSearchTableDataChunk[3],
-                    salesSearchTableDataChunk[4],
-                    salesSearchTableDataChunk[5],
+                    salesSearchTableDataChunk[4]
             });
         });
 
@@ -1050,8 +1039,6 @@ public class Access extends JFrame {
         salesPanel.add(salesSearchBoxField);
         salesPanel.add(salesSearchButton);
         salesPanel.add(salesScrollPane);
-        salesPanel.add(salesUpdateButton);
-
 
         aboutPanel.add(aboutTextPane);
 
