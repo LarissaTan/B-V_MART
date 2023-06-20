@@ -217,8 +217,8 @@ public class Access extends JFrame {
         int count = Functions.recordCount("products.txt");
 
         JLabel newBillTitle = new JLabel("New Bill");
-        newBillTitle.setBounds(20, 20, 360, 25);
-        newBillTitle.setFont(new Font("Poppins", Font.BOLD, 20));
+        newBillTitle.setBounds(20, 10, 360, 35);
+        newBillTitle.setFont(titleFont);
 
         JLabel newBillProductNameLabel = new JLabel("Product name");
         newBillProductNameLabel.setBounds(20, 65, 150, 25);
@@ -381,8 +381,8 @@ public class Access extends JFrame {
 
         /**** Add product start ****/
         JLabel addProductTitle = new JLabel("Add Product");
-        addProductTitle.setBounds(20, 20, 360, 25);
-        addProductTitle.setFont(new Font("Poppins", Font.BOLD, 20));
+        addProductTitle.setBounds(20, 10, 360, 35);
+        addProductTitle.setFont(titleFont);
 
         JLabel productNameLabel = new JLabel("Product name");
         productNameLabel.setBounds(20, 65, 200, 25);
@@ -390,45 +390,45 @@ public class Access extends JFrame {
         productNameLabel.setFont(customFont);
 
         JTextField productNameField = new JTextField(50);
-        productNameField.setBounds(20, 85, 460, 36);
+        productNameField.setBounds(20, 85, 200, 30);
         productNameField.setFont(customFont);
 
         JLabel productIdLabel = new JLabel("Product id");
-        productIdLabel.setBounds(20, 140, 200, 25);
+        productIdLabel.setBounds(250, 65, 200, 25);
         productIdLabel.setForeground(Color.GRAY);
         productIdLabel.setFont(customFont);
 
         JTextField productIdField = new JTextField(50);
-        productIdField.setBounds(20, 160, 460, 36);
+        productIdField.setBounds(250, 85, 200, 30);
         productIdField.setFont(customFont);
 
         JLabel productPriceLabel = new JLabel("Product price");
-        productPriceLabel.setBounds(20, 215, 200, 25);
+        productPriceLabel.setBounds(20, 135, 200, 25);
         productPriceLabel.setForeground(Color.GRAY);
         productPriceLabel.setFont(customFont);
 
         JTextField productPriceField = new JTextField(50);
-        productPriceField.setBounds(20, 235, 460, 36);
+        productPriceField.setBounds(20, 155, 200, 30);
         productPriceField.setFont(customFont);
 
         JLabel productStockLabel = new JLabel("Product stock");
-        productStockLabel.setBounds(20, 290, 200, 25);
+        productStockLabel.setBounds(250, 135, 200, 25);
         productStockLabel.setForeground(Color.GRAY);
         productStockLabel.setFont(customFont);
 
         JTextField productStockField = new JTextField(50);
-        productStockField.setBounds(20, 310, 460, 36);
+        productStockField.setBounds(250, 155, 200, 30);
         productStockField.setFont(customFont);
 
         JButton addProductButton = new JButton("Add Product");
-        addProductButton.setBounds(20, 365, 460, 36);
+        addProductButton.setBounds(20, 215, 200, 30);
         addProductButton.setFont(customFont);
         addProductButton.setForeground(Color.BLACK);
         addProductButton.setFocusPainted(false);
         addProductButton.setRolloverEnabled(false);
 
         JButton addProductClearButton = new JButton("Clear Field");
-        addProductClearButton.setBounds(20, 420, 460, 36);
+        addProductClearButton.setBounds(250, 215, 200, 30);
         addProductClearButton.setFont(customFont);
         addProductClearButton.setForeground(Color.BLACK);
         addProductClearButton.setFocusPainted(false);
@@ -494,7 +494,7 @@ public class Access extends JFrame {
 
         JLabel availableStockTitle = new JLabel("Available Stock");
         availableStockTitle.setBounds(20, 20, 360, 25);
-        availableStockTitle.setFont(new Font("Poppins", Font.BOLD, 20));
+        availableStockTitle.setFont(titleFont);
 
         DefaultTableModel availableStockTableModel = new DefaultTableModel();
         availableStockTableModel.addColumn("Product");
@@ -546,8 +546,8 @@ public class Access extends JFrame {
 
         /**** Update stock start ****/
         JLabel updateStockTitle = new JLabel("Update Stock");
-        updateStockTitle.setBounds(20, 20, 360, 25);
-        updateStockTitle.setFont(new Font("Poppins", Font.BOLD, 20));
+        updateStockTitle.setBounds(20, 10, 360, 35);
+        updateStockTitle.setFont(titleFont);
 
         JLabel updateStockProductIdLabel = new JLabel("Product id");
         updateStockProductIdLabel.setBounds(20, 65, 250, 25);
@@ -786,8 +786,8 @@ public class Access extends JFrame {
         String[] salesSearchByFieldData = {"---Select---", "Bill No", "Customer Name"};
 
         JLabel salesTitle = new JLabel("Sales");
-        salesTitle.setBounds(20, 20, 360, 25);
-        salesTitle.setFont(new Font("Poppins", Font.BOLD, 20));
+        salesTitle.setBounds(20, 10, 360, 35);
+        salesTitle.setFont(titleFont);
 
         JLabel salesSearchByLabel = new JLabel("Search by");
         salesSearchByLabel.setBounds(20, 65, 150, 25);
@@ -1114,7 +1114,6 @@ public class Access extends JFrame {
         JButton saveButton = new JButton("Save");
         saveButton.setBounds(20, 510, 250, 36);
         saveButton.setFont(customFont);
-        saveButton.setBackground(Color.BLACK);
         saveButton.setForeground(Color.BLACK);
         saveButton.setFocusPainted(false);
         saveButton.setRolloverEnabled(false);
