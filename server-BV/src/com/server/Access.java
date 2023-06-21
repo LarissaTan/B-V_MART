@@ -8,11 +8,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.function.Function;
 
 public class Access extends JFrame {
     static String[][] billData = new String[1000][4];
@@ -22,11 +19,7 @@ public class Access extends JFrame {
     Font titleFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/DancingScript-SemiBold.ttf")).deriveFont(36f);
     static Font customFont;
 
-
-
-
-
-    Access() throws IOException, FontFormatException{
+    Access() throws IOException, FontFormatException {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -457,37 +450,7 @@ public class Access extends JFrame {
             aboutPanel.setVisible(false);
         });
         addProductButton.addActionListener(e -> {
-            Scanner sc = new Scanner(System.in);
-            String name = productNameField.getText();
-            String id = productIdField.getText();
-            String price = productPriceField.getText();
-            String stock = productStockField.getText();
-
-            /****** file creation ******/
-            try {
-                File myObj = new File("products.txt");
-                if (myObj.createNewFile()) {
-                    System.out.println("File created: " + myObj.getName());
-                }
-            } catch (IOException exception) {
-                JOptionPane.showMessageDialog(addProduct, "Unable to add product");
-                exception.printStackTrace();
-            }
-            /****** writing in file *******/
-            try {
-                FileWriter myWriter = new FileWriter("products.txt", true);
-                myWriter.write(name + "," + id + "," + Float.parseFloat(price) + "," + Float.parseFloat(stock) + "\n");
-                myWriter.close();
-                JOptionPane.showMessageDialog(addProductPanel, "Product added");
-
-                productNameField.setText("");
-                productIdField.setText("");
-                productPriceField.setText("");
-                productStockField.setText("");
-            } catch (IOException exception) {
-                JOptionPane.showMessageDialog(addProduct, "Error adding product");
-                exception.printStackTrace();
-            }
+            addProduct(addProductPanel, addProduct, productNameField, productIdField, productPriceField, productStockField);
         });
 
         /**** Available stock start ****/
@@ -1060,6 +1023,40 @@ public class Access extends JFrame {
         this.setVisible(true);
     }
 
+    protected static synchronized void addProduct(JPanel addProductPanel, JButton addProduct, JTextField productNameField, JTextField productIdField, JTextField productPriceField, JTextField productStockField) {
+        Scanner sc = new Scanner(System.in);
+        String name = productNameField.getText();
+        String id = productIdField.getText();
+        String price = productPriceField.getText();
+        String stock = productStockField.getText();
+
+        /****** file creation ******/
+        try {
+            File myObj = new File("products.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            }
+        } catch (IOException exception) {
+            JOptionPane.showMessageDialog(addProduct, "Unable to add product");
+            exception.printStackTrace();
+        }
+        /****** writing in file *******/
+        try {
+            FileWriter myWriter = new FileWriter("products.txt", true);
+            myWriter.write(name + "," + id + "," + Float.parseFloat(price) + "," + Float.parseFloat(stock) + "\n");
+            myWriter.close();
+            JOptionPane.showMessageDialog(addProductPanel, "Product added");
+
+            productNameField.setText("");
+            productIdField.setText("");
+            productPriceField.setText("");
+            productStockField.setText("");
+        } catch (IOException exception) {
+            JOptionPane.showMessageDialog(addProduct, "Error adding product");
+            exception.printStackTrace();
+        }
+    }
+
 
     public static void newBillInfo() {
         float total = 0;
@@ -1121,7 +1118,7 @@ public class Access extends JFrame {
         float finalTotal = total;
         saveButton.addActionListener(e -> {
             if (!customerNameField.getText().equals("")) {
-                Functions.createBills(frame, (int) finalTotal,customerNameField,billData,productQuantity);
+                Functions.createBills(frame, (int) finalTotal, customerNameField, billData, productQuantity);
             } else if (customerNameField.getText().equals("")) {
                 JOptionPane.showMessageDialog(frame, "Please enter customer name");
             }
