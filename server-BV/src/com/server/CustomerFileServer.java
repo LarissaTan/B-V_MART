@@ -10,9 +10,8 @@ public class CustomerFileServer {
 
     public static void main(String[] args) {
         CustomerFileServer server = new CustomerFileServer();
-//        server.startServer(8080);
-//        test authenticate
-        System.out.println(server.authenticateUser("laf", "123"));
+        server.startServer(54321);
+
     }
 
     public void startServer(int port) {
@@ -56,6 +55,7 @@ public class CustomerFileServer {
 //        读取customer.txt，
         File file = new File("customer.txt");
         BufferedReader reader;
+        BufferedWriter writer;
         try {
             reader = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
@@ -67,14 +67,72 @@ public class CustomerFileServer {
         for (String line : reader.lines().collect(Collectors.toList())) {
             lineNum++;
             String[] parts = line.split(",");
-            if (parts[0].equals(username) && parts[1].equals(password) && parts[2].equals("unlocked")) {
+            if (parts[0].equals(username) && parts[1].equals(password) && parts[2].equals("unlock")) {
 //                当前行从unlocked变为locked
-                String newLine = username + "," + password + ",locked  ";
+                String newLine = username + "," + password + ",locked";
 
                 try {
                     RandomAccessFile raf = new RandomAccessFile(file, "rw");
-                    raf.seek((lineNum - 1) * (newLine.length() + 1));
-                    raf.write(newLine.getBytes());
+                    long position = (lineNum - 1) * (newLine.length() + 1);
+                    byte[] lineBytes = newLine.getBytes();
+                    int lineLength = lineBytes.length;
+
+                    // 清空原行
+                    raf.seek(position);
+                    for (int i = 0; i < lineLength; i++) {
+                        raf.writeByte(0);
+                    }
+
+                    // 写入新行
+                    raf.seek(position);
+                    raf.writeBytes(newLine);
+
+                    raf.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private synchronized boolean unlockUser(String name) {
+//        读取customer.txt，
+        File file = new File("customer.txt");
+        BufferedReader reader;
+        BufferedWriter writer;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+//        逐行读取，如果有一行的用户名和传入的参数相同，返回true
+//        否则返回false
+        int lineNum = 0;
+        for (String line : reader.lines().collect(Collectors.toList())) {
+            lineNum++;
+            String[] parts = line.split(",");
+            if (parts[0].equals(name) && parts[2].equals("locked")) {
+//                当前行从locked变为unlocked
+                String newLine = name + "," + parts[1] + ",unlock";
+
+                try {
+                    RandomAccessFile raf = new RandomAccessFile(file, "rw");
+                    long position = (lineNum - 1) * (newLine.length() + 1);
+                    byte[] lineBytes = newLine.getBytes();
+                    int lineLength = lineBytes.length;
+
+                    // 清空原行
+                    raf.seek(position);
+                    for (int i = 0; i < lineLength; i++) {
+                        raf.writeByte(0);
+                    }
+
+                    // 写入新行
+                    raf.seek(position);
+                    raf.writeBytes(newLine);
+
                     raf.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -84,10 +142,6 @@ public class CustomerFileServer {
         }
 
         return false;
-    }
-
-    private synchronized boolean unlockUser(String name) {
-        return true;
     }
 
     private void writeCustomerFile(String data) {
@@ -123,6 +177,15 @@ public class CustomerFileServer {
                     writer.write("File updated successfully");
                     writer.newLine();
                     writer.flush();
+                } else if (request.equals("LOGIN")) {
+                    String username = reader.readLine();
+                    String password = reader.readLine();
+                    boolean success = authenticateUser(username, password);
+                    if (success) {
+                        writer.write("Login successful");
+                    } else {
+                        writer.write("Login failed");
+                    }
                 } else if (request.equals("EXIT")) {
                     break;
                 }
