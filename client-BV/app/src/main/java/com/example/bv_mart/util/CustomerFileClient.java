@@ -17,6 +17,20 @@ public class CustomerFileClient {
         start();
     }
 
+    public static void start() {
+        String serverAddress = "localhost";
+        int serverPort = 54321;
+
+        try {
+            socket = new Socket(serverAddress, serverPort);
+            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     //    close connection
     public static void close() {
@@ -47,17 +61,6 @@ public class CustomerFileClient {
     }
 
     //    start connection
-    public static void start() {
-        String serverAddress = "localhost";
-        int serverPort = 54321;
 
-        try {
-            socket = new Socket(serverAddress, serverPort);
-            writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }

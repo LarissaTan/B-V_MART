@@ -1,4 +1,4 @@
-package com.server;
+package com.server.backup;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -11,7 +11,6 @@ public class CustomerFileServer {
     public static void main(String[] args) {
         CustomerFileServer server = new CustomerFileServer();
         server.startServer(54321);
-
     }
 
     public void startServer(int port) {
@@ -186,6 +185,8 @@ public class CustomerFileServer {
                     } else {
                         writer.write("Login failed");
                     }
+                    writer.newLine();
+                    writer.flush();
                 } else if (request.equals("EXIT")) {
                     break;
                 }
