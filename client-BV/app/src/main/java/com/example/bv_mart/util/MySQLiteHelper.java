@@ -88,8 +88,6 @@ public class MySQLiteHelper {
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 ChatMessageBean chatMessageBean = new ChatMessageBean();
-                chatMessageBean.setId(cursor.getInt(1));
-                chatMessageBean.setImg_id(cursor.getString(2));
                 chatMessageBean.setMessage(cursor.getString(3));
                 chatMessageBean.setUserName(cursor.getString(4));
                 chatMessageBean.setTime(cursor.getString(5));
@@ -103,8 +101,6 @@ public class MySQLiteHelper {
     //插入聊天信息的方法
     public void insertMessages(ChatMessageBean chatMessageBean){
         ContentValues cv =new ContentValues();
-        cv.put("ID",chatMessageBean.getId());
-        cv.put("img_id",chatMessageBean.getImg_id());
         cv.put("message",chatMessageBean.getMessage());
         cv.put("userName",chatMessageBean.getUserName());
         cv.put("time",chatMessageBean.getTime());

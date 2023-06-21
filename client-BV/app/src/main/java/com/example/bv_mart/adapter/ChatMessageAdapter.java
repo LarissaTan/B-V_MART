@@ -24,8 +24,6 @@ public class ChatMessageAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private LayoutInflater inflater;
     private List<ChatMessageBean> messageBeans;
-    private int MyUserID = MySQLiteHelper.getInstance(AppContext.getInstance()).GetUserId(MainActivity.username);
-
 
     public ChatMessageAdapter(List<ChatMessageBean> chatMessageBeans){
         this.messageBeans = chatMessageBeans;

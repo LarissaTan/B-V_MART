@@ -1,7 +1,5 @@
 package com.example.bv_mart.fragment;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,8 +11,6 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,11 +26,9 @@ import com.example.bv_mart.util.DateUtill;
 import com.example.bv_mart.util.MySQLiteHelper;
 import com.example.bv_mart.util.ToastUtil;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +87,7 @@ public class StoreCommentFragment extends Fragment {
                 if (TextUtils.isEmpty(messages)) {
                     ToastUtil.showShort("内容为空！");
                 } else {
-                    chatMessageBean = new ChatMessageBean(MyUserID, MyUserID + "", messages, MainActivity.username, DateUtill.getCurrentTime());
+                    chatMessageBean = new ChatMessageBean(messages, MainActivity.username, DateUtill.getCurrentTime());
 
                     new AsyncTask<Void, Void, String>() {
                         @Override
@@ -103,16 +97,11 @@ public class StoreCommentFragment extends Fragment {
                                 Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
                                 //ObjectInputStream reader = new ObjectInputStream(clientSocket.getInputStream());
                                 ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                                 chatObject msg = new chatObject(MainActivity.username,messages,DateUtill.getCurrentTime());
                                 writer.writeObject(msg); // 发送消息到服务器
                                 writer.flush();
 
-                                response = reader.readLine(); // 读取服务器的响应
-                                System.out.println("服务器响应：" + response);
-
-                                reader.close();
                                 writer.close();
                                 socket.close();
                             } catch (IOException e) {

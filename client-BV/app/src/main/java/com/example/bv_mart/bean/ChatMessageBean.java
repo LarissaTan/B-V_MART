@@ -7,17 +7,12 @@ import java.io.Serializable;
  *  评论信息bean
  */
 public class ChatMessageBean implements Serializable {
-
-    private int id ;
-    private String img_id;
     private String message;
     private String userName;
     private String time;
 
 
-    public ChatMessageBean(int id, String img_id, String message, String userName, String time) {
-        this.id = id;
-        this.img_id = img_id;
+    public ChatMessageBean(String message, String userName, String time) {
         this.message = message;
         this.userName = userName;
         this.time = time;
@@ -27,21 +22,6 @@ public class ChatMessageBean implements Serializable {
 
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getImg_id() {
-        return img_id;
-    }
-
-    public void setImg_id(String img_id) {
-        this.img_id = img_id;
-    }
 
     public String getMessage() {
         return message;
@@ -70,9 +50,7 @@ public class ChatMessageBean implements Serializable {
     @Override
     public String toString() {
         return "ChatMessageBean{" +
-                "id=" + id +
-                ", img_id='" + img_id + '\'' +
-                ", message='" + message + '\'' +
+                "message='" + message + '\'' +
                 ", userName='" + userName + '\'' +
                 ", time='" + time + '\'' +
                 '}';
