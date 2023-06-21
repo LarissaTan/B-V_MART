@@ -57,20 +57,6 @@ public class MySQLiteHelper {
         return false;
     }
 
-    public Userinfo  getUserInfoFromUserName(String userName){
-        Userinfo userinfo = new Userinfo();
-        Cursor cursor = db.rawQuery("SELECT * FROM userInfo WHERE userName LIKE ? ",
-                new String[] {userName});
-        if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                userinfo.setUserName(cursor.getString(1));
-                userinfo.setPassword(cursor.getString(2));
-            }
-        }
-
-        return userinfo;
-    }
-
     public int GetUserId(String userName){
         Userinfo userinfo = new Userinfo();
         Cursor cursor = db.rawQuery("SELECT * FROM userInfo WHERE userName LIKE ? ",

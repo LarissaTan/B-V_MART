@@ -24,6 +24,7 @@ import com.example.bv_mart.adapter.ChatMessageAdapter;
 import com.example.bv_mart.MainActivity;
 import com.example.bv_mart.R;
 import com.example.bv_mart.bean.ChatMessageBean;
+import com.example.bv_mart.bean.chatObject;
 import com.example.bv_mart.util.AppContext;
 import com.example.bv_mart.util.DateUtill;
 import com.example.bv_mart.util.MySQLiteHelper;
@@ -32,6 +33,7 @@ import com.example.bv_mart.util.ToastUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -67,9 +69,7 @@ public class StoreCommentFragment extends Fragment {
     }
 
     private void initData() {
-
         chatMessageBeans = MySQLiteHelper.getInstance(getContext()).queryAllMessages();
-
     }
 
     private void initView() {
@@ -101,12 +101,13 @@ public class StoreCommentFragment extends Fragment {
                             String response = null;
                             try {
                                 Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
-
+                                //ObjectInputStream reader = new ObjectInputStream(clientSocket.getInputStream());
+                                ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
-                                String temp = MainActivity.username + ", " + messages;
-                                writer.println(temp); // 发送消息到服务器
+                                chatObject msg = new chatObject(MainActivity.username,messages,DateUtill.getCurrentTime());
+                                writer.writeObject(msg); // 发送消息到服务器
+                                writer.flush();
 
                                 response = reader.readLine(); // 读取服务器的响应
                                 System.out.println("服务器响应：" + response);
@@ -131,9 +132,7 @@ public class StoreCommentFragment extends Fragment {
                         }
                     }.execute();
                 }
-
             }
-
         });
     }
 }
