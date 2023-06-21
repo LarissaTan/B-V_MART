@@ -32,7 +32,9 @@ public class TCPclient {
 
         ois = new ObjectInputStream(socket.getInputStream());
         String message = (String) ois.readObject();
-        System.out.println("Message: " + message);
+        String[] split = message.split("@");
+        System.out.println("Message#: " + message);
+        System.out.println(message);
 
         //close resources
 

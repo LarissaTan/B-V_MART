@@ -19,6 +19,13 @@ import com.example.bv_mart.util.CustomerFileClient;
 import com.example.bv_mart.util.ShareUtils;
 import com.example.bv_mart.activityAndNav.HomeActivity;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText et_password;
@@ -99,37 +106,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                new AsyncTask<Void, Void, String>() {
-                    boolean loginSuccess;
+                NetworkTask networkTask = new NetworkTask(username, password);
+                networkTask.execute();
 
-                    @Override
-                    protected String doInBackground(Void... voids) {
-                        CustomerFileClient customerFileClient = new CustomerFileClient();
-
-                        loginSuccess = customerFileClient.login(username, password);
-                        Log.i("login", "login: " + username + " " + password);
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(String response) {
-                        flag = loginSuccess;
-                        Log.i("login", "login success: " + loginSuccess);
-                    }
-                };
-
-                if (flag) {
-                    if (rember.isChecked()) {
-                        ShareUtils.putUserName(username);
-                        ShareUtils.putPassword(password);
-                    }
-                    Toast.makeText(MainActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, HomeActivity.class));
-                    MainActivity.this.finish();
-                } else {
-                    Toast.makeText(MainActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (flag) {
+//                    if (rember.isChecked()) {
+//                        ShareUtils.putUserName(username);
+//                        ShareUtils.putPassword(password);
+//                    }
+//                    Toast.makeText(MainActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(this, HomeActivity.class));
+//                    MainActivity.this.finish();
+//                } else {
+//                    Toast.makeText(MainActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 break;
             case R.id.M_register:
                 Intent intent = new Intent(this, RegisterActivity.class);
@@ -139,4 +130,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String username;
+        private String password;
+
+        public NetworkTask(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+//                host = 10.0.2.2
+
+                InetAddress host = InetAddress.getByName("10.0.2.2");
+                Socket socket = new Socket(host.getHostName(), 16800);
+
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                oos.writeObject("login" + "@" + username + "@" + password);
+
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                String message = (String) ois.readObject();
+
+                String[] split = message.split("@");
+                Log.i("flag", split[2]);
+                flag = Boolean.parseBoolean(split[2]);
+                ois.close();
+                oos.close();
+                socket.close();
+
+                return message;
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            if (flag) {
+                // 登录成功，执行相应的操作
+                if (rember.isChecked()) {
+                    ShareUtils.putUserName(username);
+                    ShareUtils.putPassword(password);
+                }
+                Toast.makeText(MainActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                MainActivity.this.finish();
+            } else {
+                // 登录失败，显示相应的提示信息
+                Toast.makeText(MainActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+
 }
+

@@ -24,14 +24,20 @@ public class ShopServer {
     }
 
     private static void handleClientRequest(Socket socket) {
+        String reply;
         String message;
+
+        ObjectInputStream ois;
+        ObjectOutputStream oos;
         try {
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            ois = new ObjectInputStream(socket.getInputStream());
             message = (String) ois.readObject();
             System.out.println("Message Received: " + message);
 
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject("Hi Client " + message);
+            reply = extracted(message);
+
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject("Reply" + "@" + reply);
 
             ois.close();
             oos.close();
@@ -41,13 +47,20 @@ public class ShopServer {
             throw new RuntimeException(e);
         }
 
-//        如果发送login
+
+    }
+
+    private static String extracted(String message) {
+        String reply = "";
+
+        //        如果发送login
         if (message.startsWith("login")) {
             String[] split = message.split("@");
             String username = split[1];
             String password = split[2];
             boolean authenticated = authenticateUser(username, password);
             System.out.println("User " + username + " authenticated: " + authenticated);
+            reply = username + "@" + authenticated;
         }
 
 //        如果发送unlock
@@ -56,6 +69,7 @@ public class ShopServer {
             String username = split[1];
             boolean unlocked = unlockUser(username);
             System.out.println("User " + username + " unlocked: " + unlocked);
+            reply = "User " + username + " unlocked: " + unlocked;
         }
 
         if (message.equalsIgnoreCase("exit")) {
@@ -64,7 +78,9 @@ public class ShopServer {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            reply = "Server stopped";
         }
+        return reply;
     }
 
     private static synchronized boolean unlockUser(String name) {
