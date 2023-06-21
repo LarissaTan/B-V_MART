@@ -28,6 +28,7 @@ import com.example.bv_mart.util.ToastUtil;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -60,6 +61,10 @@ public class StoreCommentFragment extends Fragment {
         super.onStart();
         initData();
         initView();
+
+        // 启动后台线程接收消息
+        ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
+        receiveMessagesTask.execute();
     }
 
     private void initData() {
@@ -121,6 +126,54 @@ public class StoreCommentFragment extends Fragment {
                         }
                     }.execute();
                 }
+            }
+        });
+    }
+
+    // 后台接收消息的异步任务
+    private class ReceiveMessagesTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
+                ObjectInputStream reader = new ObjectInputStream(socket.getInputStream());
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(socket.isConnected()){
+                            try{
+                                chatObject receivedMsg = (chatObject) reader.readObject();
+                                if (receivedMsg != null) {
+                                    ChatMessageBean receivedChatBean = new ChatMessageBean(
+                                            receivedMsg.msg, receivedMsg.username, receivedMsg.time);
+                                    // 通过回调方法更新UI
+                                    onMessageReceived(receivedChatBean);
+                                }
+                            }catch (IOException | ClassNotFoundException e){
+
+                            }
+                        }
+                    }
+                }).start();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    // 回调方法，在接收到消息时更新UI
+    private void onMessageReceived(ChatMessageBean message) {
+        // 在这里处理接收到的消息，例如更新聊天界面的列表
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                chatMessageBeans.add(message);
+                adapter.refreshMessages();
+                rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
             }
         });
     }
