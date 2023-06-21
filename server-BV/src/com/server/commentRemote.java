@@ -9,42 +9,45 @@ public class commentRemote {
     private static final Object lock = new Object();
 
     public static void main(String[] args) {
-        try {
-            ServerSocket serverSocket = new ServerSocket(12345); // 指定监听的端口
-            System.out.println("等待客户端连接...");
-            Socket clientSocket = serverSocket.accept(); // 等待客户端连接
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
+        while(true) {
+            try {
+                ServerSocket serverSocket = new ServerSocket(12345); // 指定监听的端口
+                System.out.println("等待客户端连接...");
+                Socket clientSocket = serverSocket.accept(); // 等待客户端连接
 
-            String inputLine;
-            while ((inputLine = reader.readLine()) != null) {
-                System.out.println("客户端消息：" + inputLine);
-                writer.println("服务器收到消息：" + inputLine);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
+
+                String inputLine;
+                while ((inputLine = reader.readLine()) != null) {
+                    System.out.println("客户端消息：" + inputLine);
+                    writer.println("服务器收到消息：" + inputLine);
+                }
+
+                reader.close();
+                writer.close();
+                clientSocket.close();
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            reader.close();
-            writer.close();
-            clientSocket.close();
-            serverSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            // 创建两个线程进行文件读写
+            Thread writerThread = new Thread(() -> writeFile("1"));
+            Thread readerThread = new Thread(commentRemote::readFile);
 
-        // 创建两个线程进行文件读写
-        Thread writerThread = new Thread(() -> writeFile("1"));
-        Thread readerThread = new Thread(commentRemote::readFile);
+            // 启动线程
+            writerThread.start();
+            readerThread.start();
 
-        // 启动线程
-        writerThread.start();
-        readerThread.start();
-
-        // 等待线程结束
-        try {
-            writerThread.join();
-            readerThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            // 等待线程结束
+            try {
+                writerThread.join();
+                readerThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
