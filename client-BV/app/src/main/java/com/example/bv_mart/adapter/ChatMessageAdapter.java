@@ -80,7 +80,7 @@ public class ChatMessageAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     @Override
     public int getItemViewType(int position) {
-        if (messageBeans.get(position).getId() == MyUserID) {
+        if (messageBeans.get(position).getUserName().equals(MainActivity.username)) {
             return ItemType.MY.ordinal();
         } else {
             return ItemType.OTHERS.ordinal();
@@ -91,15 +91,12 @@ public class ChatMessageAdapter  extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     class ViewHolderMy extends RecyclerView.ViewHolder {
-
-        private ImageView iv_chat;
         private TextView tv_message;
         private TextView tv_rightUserName;
         private TextView tv_right_time;
 
         public ViewHolderMy(@NonNull View itemView) {
             super(itemView);
-            iv_chat = itemView.findViewById(R.id.iv_chat_imagr_right);
             tv_message = itemView.findViewById(R.id.tv_chat_me_message);
             tv_rightUserName = itemView.findViewById(R.id.tv_right_userName);
             tv_right_time = itemView.findViewById(R.id.tv_right_time);

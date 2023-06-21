@@ -57,8 +57,8 @@ public class commentRemote {
     private static void writeFile(chatObject content) {
         synchronized (lock) {
             System.out.println("the output is " + content);
-            try (FileWriter writer = new FileWriter(FILE_PATH)) {
-                writer.write(content.username + "," + content.msg + "," +content.time);
+            try (FileWriter writer = new FileWriter(FILE_PATH,true)) {
+                writer.write("\n" + content.username + "," + content.msg + "," +content.time);
                 System.out.println("writing to txt is success");
             } catch (IOException e) {
                 e.printStackTrace();
