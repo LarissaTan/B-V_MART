@@ -104,7 +104,7 @@ public class ShopServer {
         }
 
         try {
-            writer.write(username + "," + password + ",unlocked");
+            writer.write(username + "," + password + ",unlock");
             writer.newLine();
             writer.close();
         } catch (IOException e) {
