@@ -105,7 +105,8 @@ public class StoreCommentFragment extends Fragment {
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                                 PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
-                                writer.println(messages); // 发送消息到服务器
+                                String temp = MainActivity.username + ", " + messages;
+                                writer.println(temp); // 发送消息到服务器
 
                                 response = reader.readLine(); // 读取服务器的响应
                                 System.out.println("服务器响应：" + response);

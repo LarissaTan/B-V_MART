@@ -7,10 +7,10 @@ import java.net.Socket;
 public class commentRemote {
     private static final String FILE_PATH = "comment.txt";
     private static final Object lock = new Object();
+    public static  String inputLine = null;
 
     public static void main(String[] args) {
-
-        while(true) {
+        while (true) {
             try {
                 ServerSocket serverSocket = new ServerSocket(12345); // 指定监听的端口
                 System.out.println("等待客户端连接...");
@@ -19,33 +19,30 @@ public class commentRemote {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
 
-                String inputLine;
                 while ((inputLine = reader.readLine()) != null) {
                     System.out.println("客户端消息：" + inputLine);
                     writer.println("服务器收到消息：" + inputLine);
+                    String content = inputLine; // 将消息内容存储在临时变量中
+
+                    // 创建两个线程进行文件读写
+                    Thread writerThread = new Thread(() -> writeFile(content));
+                    Thread readerThread = new Thread(commentRemote::readFile);
+
+                    // 启动线程
+                    writerThread.start();
+                    readerThread.start();
+
+                    // 等待线程结束
+                    writerThread.join();
+                    readerThread.join();
                 }
 
+                // 关闭资源
                 reader.close();
                 writer.close();
                 clientSocket.close();
                 serverSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            // 创建两个线程进行文件读写
-            Thread writerThread = new Thread(() -> writeFile("1"));
-            Thread readerThread = new Thread(commentRemote::readFile);
-
-            // 启动线程
-            writerThread.start();
-            readerThread.start();
-
-            // 等待线程结束
-            try {
-                writerThread.join();
-                readerThread.join();
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -53,9 +50,10 @@ public class commentRemote {
 
     private static void writeFile(String content) {
         synchronized (lock) {
+            System.out.println("the output is " + content);
             try (FileWriter writer = new FileWriter(FILE_PATH)) {
                 writer.write(content);
-                System.out.println("写入文件成功！");
+                System.out.println("writing to txt is success");
             } catch (IOException e) {
                 e.printStackTrace();
             }
