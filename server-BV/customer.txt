@@ -1,2 +1,1 @@
-laf,123,unlock
-tqq,123,unlock
+laf,123,unlocktqq,123,unlock

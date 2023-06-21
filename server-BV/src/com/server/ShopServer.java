@@ -69,7 +69,7 @@ public class ShopServer {
             String username = split[1];
             boolean unlocked = unlockUser(username);
             System.out.println("User " + username + " unlocked: " + unlocked);
-            reply = "User " + username + " unlocked: " + unlocked;
+            reply = username + "@" + unlocked;
         }
 
         if (message.equalsIgnoreCase("exit")) {
