@@ -7,13 +7,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-public class NetworkTask extends AsyncTask<Void, Void, String> {
+public class BackUpNetworkTask extends AsyncTask<Void, Void, String> {
     private String username;
     private String password;
 
-    public NetworkTask(String username, String password) {
+    public BackUpNetworkTask(String username, String password) {
         this.username = username;
         this.password = password;
     }

@@ -72,6 +72,15 @@ public class ShopServer {
             reply = username + "@" + unlocked;
         }
 
+        if (message.startsWith("register")) {
+            String[] split = message.split("@");
+            String username = split[1];
+            String password = split[2];
+            boolean registered = registerUser(username, password);
+            System.out.println("User " + username + " registered: " + registered);
+            reply = username + "@" + registered;
+        }
+
         if (message.equalsIgnoreCase("exit")) {
             try {
                 close();
@@ -80,7 +89,29 @@ public class ShopServer {
             }
             reply = "Server stopped";
         }
+
+
         return reply;
+    }
+
+    private static boolean registerUser(String username, String password) {
+        File file = new File("customer.txt");
+        BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(file, true));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            writer.write(username + "," + password + ",unlocked");
+            writer.newLine();
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
     }
 
     private static synchronized boolean unlockUser(String name) {

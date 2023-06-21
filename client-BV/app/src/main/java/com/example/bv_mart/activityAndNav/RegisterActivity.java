@@ -1,8 +1,10 @@
 package com.example.bv_mart.activityAndNav;
 
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,13 @@ import com.example.bv_mart.util.MySQLiteHelper;
 import com.example.bv_mart.util.ToastUtil;
 import com.example.bv_mart.R;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private AlertDialog dialog;
@@ -31,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private TextView tv_bar_title;
     private Toolbar toolbar;
+    private boolean flag = false;
 
 
     @Override
@@ -65,8 +75,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -99,7 +108,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                DoInsert(userinfo);
+//                                DoInsert(userinfo);
+                                NetworkTaskRegister networkTaskRegister = new NetworkTaskRegister(userName, password);
+                                networkTaskRegister.execute();
                             }
                         })
                         .setNegativeButton("Cancel", null)
@@ -110,10 +121,55 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void DoInsert(Userinfo userinfo){
+    public void DoInsert(Userinfo userinfo) {
         MySQLiteHelper.getInstance(this).insertUserinfo(userinfo);
         ToastUtil.showShort("Register successfully");
         RegisterActivity.this.finish();
+    }
+
+
+    private class NetworkTaskRegister extends AsyncTask<Void, Void, String> {
+        private String username;
+        private String password;
+
+        public NetworkTaskRegister(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                InetAddress host = InetAddress.getByName("10.0.2.2");
+                Socket socket = new Socket(host.getHostName(), 16800);
+
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                oos.writeObject("register" + "@" + username + "@" + password);
+
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                String message = (String) ois.readObject();
+
+                String[] split = message.split("@");
+                Log.i("flag", split[2]);
+                flag = Boolean.parseBoolean(split[2]);
+                ois.close();
+                oos.close();
+                socket.close();
+                return message;
+            } catch (UnknownHostException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            RegisterActivity.this.finish();
+        }
+
     }
 
 }

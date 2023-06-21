@@ -24,9 +24,10 @@ public class TCPclient {
         oos = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Sending request to Socket Server");
 
-        String username = "laf";
+        String username = "jack";
         String password = "123";
-        oos.writeObject("login" + "@" + username + "@" + password);
+        oos.writeObject("register" + "@" + username + "@" + password);
+//        oos.writeObject("login" + "@" + username + "@" + password);
 //        oos.writeObject("unlock" + "@" + username);
         //read the server response message
 

@@ -123,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                }
                 break;
             case R.id.M_register:
-                Intent intent = new Intent(this, RegisterActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                intent.putExtra("username", username);
                 startActivity(intent);
                 break;
         }
@@ -177,7 +178,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ShareUtils.putPassword(password);
                 }
                 Toast.makeText(MainActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
                 MainActivity.this.finish();
             } else {
                 // 登录失败，显示相应的提示信息
@@ -186,6 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+
 
 
 }
