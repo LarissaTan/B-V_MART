@@ -3,13 +3,16 @@ package com.server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.stream.Collectors;
 
 public class CustomerFileServer {
     private static final Object fileLock = new Object();
 
     public static void main(String[] args) {
         CustomerFileServer server = new CustomerFileServer();
-        server.startServer(8080);
+//        server.startServer(8080);
+//        test authenticate
+        System.out.println(server.authenticateUser("laf", "123"));
     }
 
     public void startServer(int port) {
@@ -49,8 +52,42 @@ public class CustomerFileServer {
         }
     }
 
-    private boolean authenticateUser(){
+    private synchronized boolean authenticateUser(String username, String password) {
+//        读取customer.txt，
+        File file = new File("customer.txt");
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+//        逐行读取，如果有一行的用户名和密码都和传入的参数相同，返回true
+//        否则返回false
+        int lineNum = 0;
+        for (String line : reader.lines().collect(Collectors.toList())) {
+            lineNum++;
+            String[] parts = line.split(",");
+            if (parts[0].equals(username) && parts[1].equals(password) && parts[2].equals("unlocked")) {
+//                当前行从unlocked变为locked
+                String newLine = username + "," + password + ",locked  ";
+
+                try {
+                    RandomAccessFile raf = new RandomAccessFile(file, "rw");
+                    raf.seek((lineNum - 1) * (newLine.length() + 1));
+                    raf.write(newLine.getBytes());
+                    raf.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return true;
+            }
+        }
+
         return false;
+    }
+
+    private synchronized boolean unlockUser(String name) {
+        return true;
     }
 
     private void writeCustomerFile(String data) {
