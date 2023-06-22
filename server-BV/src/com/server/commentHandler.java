@@ -51,7 +51,7 @@ public class commentHandler implements Runnable{
                 System.out.println("here and array is : " + a);
                 try {
                     if (!a.socket.isClosed()) {
-                        System.out.println("wuhu~~");
+                        System.out.println(msg.msg);
                         a.writer.writeObject(msg);
                         System.out.println("work~~");
                         a.writer.flush();

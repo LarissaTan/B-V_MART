@@ -189,6 +189,7 @@ public class StoreCommentFragment extends Fragment {
                             try {
                                 Log.i("ReceiveMessagesTask", "doInBackground: socket.is connected");
                                 chatObject receivedMsg = (chatObject) reader.readObject();
+                                Log.i("ReceiveMessagesTask", "msg is " + receivedMsg.msg);
                                 if (receivedMsg != null) {
                                     ChatMessageBean receivedChatBean = new ChatMessageBean(
                                             receivedMsg.msg, receivedMsg.username, receivedMsg.time);
@@ -222,9 +223,11 @@ public class StoreCommentFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                MySQLiteHelper.getInstance(getActivity()).insertMessages(message);
                 chatMessageBeans.add(message);
                 Log.i("StoreCommentFragment", "size is : " + String.valueOf(chatMessageBeans.size()));
                 adapter.refreshMessages();
+               //adapter.notifyDataSetChanged();
                 rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
             }
         });
