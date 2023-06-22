@@ -69,7 +69,7 @@ public class StoreCommentFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
-                    socket = new Socket("10.0.2.2", 12345);
+                    socket = new Socket("192.168.43.240", 12345); //10.0.2.2
                     writer = new ObjectOutputStream(socket.getOutputStream());
                     writer.flush();
                     reader = new ObjectInputStream(socket.getInputStream());
