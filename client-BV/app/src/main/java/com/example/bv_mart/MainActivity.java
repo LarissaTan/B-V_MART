@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(Void... params) {
             try {
-//                host = 10.0.2.2
 
                 InetAddress host = InetAddress.getByName("10.0.2.2");
                 Socket socket = new Socket(host.getHostName(), 16800);
@@ -189,9 +188,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-
-
-
-
 }
 

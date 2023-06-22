@@ -115,10 +115,6 @@ public class ShopServer {
         // 每三个为一组，分别为商品的名字，数量，以及单价，减少products.txt同名商品的库存
         File file = new File("products.txt");
         List<String> lines = new ArrayList<>();
-
-        System.out.println(userName);
-        System.out.println(Arrays.toString(split));
-
         totalPrice = 0;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -140,8 +136,8 @@ public class ShopServer {
                 String line = lines.get(lineNum);
                 // parts 中分别为商品名，商品号，单价，库存
                 String[] parts = line.split(",");
-                System.out.println("parts: " + Arrays.toString(parts));
-                System.out.println(name + parts[0]);
+//                System.out.println("parts: " + Arrays.toString(parts));
+//                System.out.println(name + parts[0]);
                 if (parts[0].equals(name)) {
                     double stock = Double.parseDouble(parts[3]);
                     if (stock < quantity) {
@@ -179,7 +175,7 @@ public class ShopServer {
 //        获取19:47:41格式的时间
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         String total = String.valueOf(totalPrice);
-        String newLineSales = (lineNumSales+1) + "," + date + "," + time + ","  + total + "," + userName;
+        String newLineSales = (lineNumSales + 1) + "," + date + "," + time + "," + total + "," + userName;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("sales.txt", true))) {
             writer.newLine();

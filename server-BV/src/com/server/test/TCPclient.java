@@ -24,12 +24,13 @@ public class TCPclient {
         oos = new ObjectOutputStream(socket.getOutputStream());
         System.out.println("Sending request to Socket Server");
 
-        String username = "jack";
+        String username = "laf";
         String password = "123";
 //        oos.writeObject("register" + "@" + username + "@" + password);
 //        oos.writeObject("login" + "@" + username + "@" + password);
 //        oos.writeObject("unlock" + "@" + username);
-        oos.writeObject("pay"+"@laf"+"@Calendar@1@6.50@Chair@2@10.00@Flowers@1@10.00");
+//        oos.writeObject("pay"+"@laf"+"@Calendar@1@6.50@Chair@2@10.00@Flowers@1@10.00");
+        oos.writeObject("pay@laf@Calendar@1@6.50@Chair@1@10.00@Flowers@1@10.00@Milk@1@11.00");
         //read the server response message
 
         ois = new ObjectInputStream(socket.getInputStream());

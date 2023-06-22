@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,7 +28,13 @@ import com.example.bv_mart.MainActivity;
 import com.example.bv_mart.R;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +63,7 @@ public class PayActivity extends AppCompatActivity {
 
     private BigDecimal a1;
     private BigDecimal a2;
+    private boolean flag = false;
     private BigDecimal result1;
 
 
@@ -119,6 +127,8 @@ public class PayActivity extends AppCompatActivity {
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                NetworkTaskPay networkTaskPay = new NetworkTaskPay();
+                                networkTaskPay.execute();
                                 doInsertOrder();
                             }
                         })
@@ -126,17 +136,58 @@ public class PayActivity extends AppCompatActivity {
                         .create();
                 dialog.show();
 
-//                每一个商品以@分割，记录商品名，数量，以及总价
-                String payString = "pay";
-                for (int i = 0; i < data.size(); i++) {
-                    payString += "@" + data.get(i).getName() + "@" + data.get(i).getNumber() + "@" + data.get(i).getPrice();
-                }
-                Log.i("payString", payString);
             }
         });
 
     }
 
+    private class NetworkTaskPay extends AsyncTask<Void, Void, String> {
+        private String payString;
+
+        public NetworkTaskPay() {
+            payString = "pay";
+            payString += "@" + MainActivity.username;
+            for (int i = 0; i < data.size(); i++) {
+                payString += "@" + data.get(i).getName() + "@" + data.get(i).getNumber() + "@" + data.get(i).getPrice();
+            }
+
+            Log.i("payString", payString);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                InetAddress host = InetAddress.getByName("10.0.2.2");
+                Socket socket = new Socket(host.getHostName(), 16800);
+
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                oos.writeObject(payString);
+
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                String message = (String) ois.readObject();
+
+                String[] split = message.split("@");
+                Log.i("flag", split[2]);
+                flag = Boolean.parseBoolean(split[2]);
+                ois.close();
+                oos.close();
+                socket.close();
+
+                return message;
+            } catch (UnknownHostException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+
+        }
+    }
 
     private void doInsertOrder() {
         //解决double精度丢失问题
@@ -152,6 +203,6 @@ public class PayActivity extends AppCompatActivity {
         ToastUtil.showShort("We have receive that order!");
         MyDialog.handler.sendEmptyMessage(2);
         PayActivity.this.finish();
-
     }
+
 }
