@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -31,32 +32,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class PayActivity extends AppCompatActivity {
 
     private TextView tv_bar_title;
     private Toolbar toolbar;
 
-    private List<GoodsArrayBean.ItemR> data =new ArrayList<>();
+    private List<GoodsArrayBean.ItemR> data = new ArrayList<>();
     private RecyclerView rv_pay;
     private TextView tv_pay_total;
     private TextView tv_submitOrder;
     private PayRVAdapter payRVAdapter;
     private double total = 0;
-    private  BigDecimal b1 ;
-    private  BigDecimal b2 ;
-    private  BigDecimal b3 ;
-    private  BigDecimal result ;
-    private  BigDecimal one ;
-    private  double a ;
+    private BigDecimal b1;
+    private BigDecimal b2;
+    private BigDecimal b3;
+    private BigDecimal result;
+    private BigDecimal one;
+    private double a;
     private Dialog dialog;
     private OrderBean orderBean;
     private Gson gson;
     private String goodsJson;
 
-    private  BigDecimal a1 ;
-    private  BigDecimal a2 ;
-    private  BigDecimal result1 ;
+    private BigDecimal a1;
+    private BigDecimal a2;
+    private BigDecimal result1;
 
 
     @Override
@@ -76,8 +76,7 @@ public class PayActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -96,15 +95,15 @@ public class PayActivity extends AppCompatActivity {
         rv_pay.setLayoutManager(new LinearLayoutManager(AppContext.getInstance()));
         rv_pay.setAdapter(payRVAdapter);
 
-        for (int i= 0;i<data.size();i++){
+        for (int i = 0; i < data.size(); i++) {
             b1 = new BigDecimal(data.get(i).getPrice().trim());
             b2 = new BigDecimal(data.get(i).getNumber());
             b3 = new BigDecimal(total);
             result = b1.multiply(b2);
             result = result.add(b3);
             one = new BigDecimal("1");
-            a = result.divide(one,2,BigDecimal.ROUND_HALF_UP).doubleValue();//保留2位数
-            total = a ;
+            a = result.divide(one, 2, BigDecimal.ROUND_HALF_UP).doubleValue();//保留2位数
+            total = a;
             //Log.e("total",total+"");
         }
 
@@ -127,27 +126,32 @@ public class PayActivity extends AppCompatActivity {
                         .create();
                 dialog.show();
 
-
+//                每一个商品以@分割，记录商品名，数量，以及总价
+                String payString = "pay";
+                for (int i = 0; i < data.size(); i++) {
+                    payString += "@" + data.get(i).getName() + "@" + data.get(i).getNumber() + "@" + data.get(i).getPrice();
+                }
+                Log.i("payString", payString);
             }
         });
 
     }
 
 
-    private void doInsertOrder(){
+    private void doInsertOrder() {
         //解决double精度丢失问题
-            a2 = new BigDecimal(total);
+        a2 = new BigDecimal(total);
 
-            gson = new Gson();
-            goodsJson = gson.toJson(data);
-            //Log.e("inputString=" , inputString);
-            orderBean = new OrderBean(MainActivity.username, DateUtill.getCurrentTime(),goodsJson);
-            //Log.e("order",orderBean.toString());
-            //Log.e("时间",DateUtill.getCurrentTime());
-            MySQLiteHelper.getInstance(PayActivity.this).insertOrderInfo(orderBean);
-            ToastUtil.showShort("We have receive that order!");
-            MyDialog.handler.sendEmptyMessage(2);
-            PayActivity.this.finish();
+        gson = new Gson();
+        goodsJson = gson.toJson(data);
+        //Log.e("inputString=" , inputString);
+        orderBean = new OrderBean(MainActivity.username, DateUtill.getCurrentTime(), goodsJson);
+        //Log.e("order",orderBean.toString());
+        //Log.e("时间",DateUtill.getCurrentTime());
+        MySQLiteHelper.getInstance(PayActivity.this).insertOrderInfo(orderBean);
+        ToastUtil.showShort("We have receive that order!");
+        MyDialog.handler.sendEmptyMessage(2);
+        PayActivity.this.finish();
 
     }
 }

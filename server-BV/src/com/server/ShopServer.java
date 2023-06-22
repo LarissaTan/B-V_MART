@@ -3,12 +3,14 @@ package com.server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class ShopServer {
 
     private static ServerSocket server;
     private static final int port = 16800;
+    private static double totalPrice = 0;
 
     public static void main(String[] args) throws IOException {
         server = new ServerSocket(port);
@@ -81,6 +83,15 @@ public class ShopServer {
             reply = username + "@" + registered;
         }
 
+        if (message.startsWith("pay")) {
+            String[] split = message.split("@");
+//            移除第一个元素
+            split = Arrays.copyOfRange(split, 1, split.length);
+            boolean paid = payProduct(split);
+            System.out.println("User paid: " + paid);
+            reply = "paid@" + paid;
+        }
+
         if (message.equalsIgnoreCase("exit")) {
             try {
                 close();
@@ -92,6 +103,62 @@ public class ShopServer {
 
 
         return reply;
+    }
+
+    private static boolean payProduct(String[] split) {
+//        每三个为一组，分别为商品的名字，数量，以及单价，减少product.txt同名商品的库存
+        File file = new File("products.txt");
+        BufferedReader reader;
+        BufferedWriter writer;
+
+        try {
+            reader = new BufferedReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 0; i < split.length; i += 3) {
+            String name = split[i];
+            int quantity = Integer.parseInt(split[i + 1]);
+            double price = Double.parseDouble(split[i + 2]);
+
+            int lineNum = 0;
+            for (String line : reader.lines().collect(Collectors.toList())) {
+                lineNum++;
+                // parts 中分别为商品名，商品号，单价，库存
+                String[] parts = line.split(",");
+                if (parts[0].equals(name)) {
+                    int stock = Integer.parseInt(parts[3]);
+                    if (stock < quantity) {
+                        return false;
+                    }
+                    stock -= quantity;
+                    String newLine = name + "," + parts[1] + "," + parts[2] + "," + stock;
+
+                    try {
+                        RandomAccessFile raf = new RandomAccessFile(file, "rw");
+                        long position = (lineNum - 1) * (newLine.length() + 1);
+                        byte[] lineBytes = newLine.getBytes();
+                        int lineLength = lineBytes.length;
+
+                        // 清空原行
+                        raf.seek(position);
+                        for (int j = 0; j < lineLength; j++) {
+                            raf.writeByte(0);
+                        }
+
+                        // 写入新行
+                        raf.seek(position);
+                        raf.writeBytes(newLine);
+
+                        raf.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private static boolean registerUser(String username, String password) {
