@@ -3,7 +3,9 @@ package com.example.bv_mart.fragment;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,6 @@ import com.example.bv_mart.util.MySQLiteHelper;
 import com.example.bv_mart.util.ToastUtil;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -48,8 +49,9 @@ public class StoreCommentFragment extends Fragment {
     private Button btn_message_send;
     private String messages;
     private ChatMessageBean chatMessageBean;
-
-    private int MyUserID = MySQLiteHelper.getInstance(AppContext.getInstance()).GetUserId(MainActivity.username);
+    public Socket socket; // 替换为服务器的IP地址和端口号
+    public ObjectOutputStream writer;
+    public ObjectInputStream reader;
 
     @Nullable
     @Override
@@ -60,16 +62,51 @@ public class StoreCommentFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        // 连接Socket并启动后台线程接收消息
+        new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("WrongThread")
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    socket = new Socket("10.0.2.2", 12345);
+                    writer = new ObjectOutputStream(socket.getOutputStream());
+                    writer.flush();
+                    reader = new ObjectInputStream(socket.getInputStream());
+
+                    Log.i("ReceiveMessagesTask", "after setup");
+                    // 启动后台线程接收消息
+                    ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
+                    Log.i("ReceiveMessagesTask", "next is execute");
+                    receiveMessagesTask.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                // 在连接完成后的回调方法中执行其他操作
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        initData();
+                        initView();
+                    }
+                }, 500); // 延迟0.5秒执行
+            }
+        }.execute();
+
         initData();
         initView();
-
-//        // 启动后台线程接收消息
-//        ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
-//        receiveMessagesTask.execute();
     }
 
     private void initData() {
         chatMessageBeans = MySQLiteHelper.getInstance(getContext()).queryAllMessages();
+        Log.i("StoreCommentFragment", "init, size is : " + String.valueOf(chatMessageBeans.size()));
     }
 
     private void initView() {
@@ -89,6 +126,7 @@ public class StoreCommentFragment extends Fragment {
         btn_message_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("ReceiveMessagesTask","onclick!");
                 messages = et_chat_message.getText().toString();
                 if (TextUtils.isEmpty(messages)) {
                     ToastUtil.showShort("内容为空！");
@@ -96,19 +134,19 @@ public class StoreCommentFragment extends Fragment {
                     chatMessageBean = new ChatMessageBean(messages, MainActivity.username, DateUtill.getCurrentTime());
 
                     new AsyncTask<Void, Void, String>() {
-                        @SuppressLint("WrongThread")
                         @Override
                         protected String doInBackground(Void... voids) {
                             String response = null;
                             try {
-                                Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
+                                Log.i("ReceiveMessagesTask", "doInBackground: writer is here"); // 添加日志输出
+                                //Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
                                 //ObjectInputStream reader = new ObjectInputStream(clientSocket.getInputStream());
-                                ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
-                                // 启动后台线程接收消息
-                                ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
-                                receiveMessagesTask.execute();
+                                //                                // 启动后台线程接收消息
+//                                ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
+//                                receiveMessagesTask.execute();
 
                                 chatObject msg = new chatObject(MainActivity.username,messages,DateUtill.getCurrentTime());
+                                Log.i("ReceiveMessagesTask", "doInBackground: msg sending is " + msg.msg); // 添加日志输出
                                 writer.writeObject(msg); // 发送消息到服务器
                                 writer.flush();
 
@@ -124,6 +162,7 @@ public class StoreCommentFragment extends Fragment {
                         protected void onPostExecute(String response) {
                             // 在网络操作完成后的回调方法中更新UI或执行其他操作
                             MySQLiteHelper.getInstance(getActivity()).insertMessages(chatMessageBean);
+                            Log.i("StoreCommentFragment", "writer, size is : " + String.valueOf(chatMessageBeans.size()));
                             adapter.refreshMessages();
                             rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
                             ToastUtil.showShort("发送成功");
@@ -135,35 +174,37 @@ public class StoreCommentFragment extends Fragment {
         });
     }
 
+
     // 后台接收消息的异步任务
-    private class ReceiveMessagesTask extends AsyncTask<Void, Void, String> {
+    private class ReceiveMessagesTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected String doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
+            Log.i("ReceiveMessagesTask", "doInBackground: Task started.");
+
             try {
-                Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
-                ObjectInputStream reader = new ObjectInputStream(socket.getInputStream());
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while(socket.isConnected()){
-                            try{
-                                chatObject receivedMsg = (chatObject) reader.readObject();
-                                if (receivedMsg != null) {
-                                    ChatMessageBean receivedChatBean = new ChatMessageBean(
-                                            receivedMsg.msg, receivedMsg.username, receivedMsg.time);
-                                    // 通过回调方法更新UI
-                                    onMessageReceived(receivedChatBean);
-                                }
-                            }catch (IOException | ClassNotFoundException e){
-
-                            }
+                Log.i("ReceiveMessagesTask", "doInBackground: try started.");
+                while (socket.isConnected()) {
+                    try {
+                        Log.i("ReceiveMessagesTask", "doInBackground: socket.is connected");
+                        chatObject receivedMsg = (chatObject) reader.readObject();
+                        if (receivedMsg != null) {
+                            ChatMessageBean receivedChatBean = new ChatMessageBean(
+                                    receivedMsg.msg, receivedMsg.username, receivedMsg.time);
+                            // 通过回调方法更新UI
+                            onMessageReceived(receivedChatBean);
                         }
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
-                }).start();
-
-            } catch (IOException e) {
-                e.printStackTrace();
+                }
+            } finally {
+                try {
+                    if (socket != null) {
+                        socket.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             return null;
@@ -172,11 +213,13 @@ public class StoreCommentFragment extends Fragment {
 
     // 回调方法，在接收到消息时更新UI
     private void onMessageReceived(ChatMessageBean message) {
+        Log.i("StoreCommentFragment", "svt right here");
         // 在这里处理接收到的消息，例如更新聊天界面的列表
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 chatMessageBeans.add(message);
+                Log.i("StoreCommentFragment", "size is : " + String.valueOf(chatMessageBeans.size()));
                 adapter.refreshMessages();
                 rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
             }
