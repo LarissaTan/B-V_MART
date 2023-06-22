@@ -1,5 +1,6 @@
 package com.example.bv_mart.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -62,9 +63,9 @@ public class StoreCommentFragment extends Fragment {
         initData();
         initView();
 
-        // 启动后台线程接收消息
-        ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
-        receiveMessagesTask.execute();
+//        // 启动后台线程接收消息
+//        ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
+//        receiveMessagesTask.execute();
     }
 
     private void initData() {
@@ -95,6 +96,7 @@ public class StoreCommentFragment extends Fragment {
                     chatMessageBean = new ChatMessageBean(messages, MainActivity.username, DateUtill.getCurrentTime());
 
                     new AsyncTask<Void, Void, String>() {
+                        @SuppressLint("WrongThread")
                         @Override
                         protected String doInBackground(Void... voids) {
                             String response = null;
@@ -102,13 +104,16 @@ public class StoreCommentFragment extends Fragment {
                                 Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
                                 //ObjectInputStream reader = new ObjectInputStream(clientSocket.getInputStream());
                                 ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
+                                // 启动后台线程接收消息
+                                ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
+                                receiveMessagesTask.execute();
 
                                 chatObject msg = new chatObject(MainActivity.username,messages,DateUtill.getCurrentTime());
                                 writer.writeObject(msg); // 发送消息到服务器
                                 writer.flush();
 
-                                writer.close();
-                                socket.close();
+                                //writer.close();
+                                //socket.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

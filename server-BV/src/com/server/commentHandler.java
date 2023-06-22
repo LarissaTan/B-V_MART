@@ -5,10 +5,13 @@ import com.example.bv_mart.bean.chatObject;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class commentHandler implements Runnable{
 
-    public static ArrayList<commentHandler> array = new ArrayList<>();//to broadcast to all customers
+    //public static ArrayList<commentHandler> array = new ArrayList<>();//to broadcast to all customers
+    public static List<commentHandler> array = new CopyOnWriteArrayList<>();
     private Socket socket;
     private ObjectInputStream reader;   // replace buffered reader
     private ObjectOutputStream writer;  // replace buffered writer
@@ -18,7 +21,9 @@ public class commentHandler implements Runnable{
             this.socket = socket;
             this.reader = new ObjectInputStream(socket.getInputStream());
             this.writer = new ObjectOutputStream(socket.getOutputStream());
-            array.add(this);
+            synchronized (array) {
+                array.add(this);
+            }
         }catch (IOException e){
             closeEverything(socket,reader,writer);
         } 
@@ -41,18 +46,27 @@ public class commentHandler implements Runnable{
     }
 
     public void boardcast(chatObject msg){
-        for(commentHandler a: array){
-            try{
-                a.writer.writeObject(msg);
-                a.writer.flush();
-            } catch (IOException e) {
-                closeEverything(socket,reader,writer);
+        synchronized (array) {
+            for (commentHandler a : array) {
+                System.out.println("here and array is : " + a);
+                try {
+                    if (!a.socket.isClosed()) {
+                        System.out.println("wuhu~~");
+                        a.writer.writeObject(msg);
+                        System.out.println("work~~");
+                        a.writer.flush();
+                    }
+                } catch (IOException e) {
+                    closeEverything(socket, reader, writer);
+                }
             }
         }
     }
 
     public void removeCommentHandler(){
-        array.remove(this);
+        synchronized (array) {
+            array.remove(this);
+        }
     }
 
     public void closeEverything(Socket socket, ObjectInputStream reader, ObjectOutputStream writer){
