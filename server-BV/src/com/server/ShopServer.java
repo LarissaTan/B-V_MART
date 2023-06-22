@@ -3,7 +3,12 @@ package com.server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ShopServer {
@@ -85,9 +90,10 @@ public class ShopServer {
 
         if (message.startsWith("pay")) {
             String[] split = message.split("@");
-//            移除第一个元素
-            split = Arrays.copyOfRange(split, 1, split.length);
-            boolean paid = payProduct(split);
+            String name = split[1];
+//            移除前两个元素
+            split = Arrays.copyOfRange(split, 2, split.length);
+            boolean paid = payProduct(split, name);
             System.out.println("User paid: " + paid);
             reply = "paid@" + paid;
         }
@@ -105,58 +111,81 @@ public class ShopServer {
         return reply;
     }
 
-    private static boolean payProduct(String[] split) {
-//        每三个为一组，分别为商品的名字，数量，以及单价，减少product.txt同名商品的库存
+    private static boolean payProduct(String[] split, String userName) {
+        // 每三个为一组，分别为商品的名字，数量，以及单价，减少products.txt同名商品的库存
         File file = new File("products.txt");
-        BufferedReader reader;
-        BufferedWriter writer;
+        List<String> lines = new ArrayList<>();
 
-        try {
-            reader = new BufferedReader(new FileReader(file));
+        System.out.println(userName);
+        System.out.println(Arrays.toString(split));
+
+        totalPrice = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            lines = reader.lines().collect(Collectors.toList());
         } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         for (int i = 0; i < split.length; i += 3) {
             String name = split[i];
-            int quantity = Integer.parseInt(split[i + 1]);
+            int quantity = (int) Double.parseDouble(split[i + 1]);
             double price = Double.parseDouble(split[i + 2]);
 
-            int lineNum = 0;
-            for (String line : reader.lines().collect(Collectors.toList())) {
-                lineNum++;
+            totalPrice = totalPrice + price * quantity;
+
+            for (int lineNum = 0; lineNum < lines.size(); lineNum++) {
+                String line = lines.get(lineNum);
                 // parts 中分别为商品名，商品号，单价，库存
                 String[] parts = line.split(",");
+                System.out.println("parts: " + Arrays.toString(parts));
+                System.out.println(name + parts[0]);
                 if (parts[0].equals(name)) {
-                    int stock = Integer.parseInt(parts[3]);
+                    double stock = Double.parseDouble(parts[3]);
                     if (stock < quantity) {
                         return false;
                     }
                     stock -= quantity;
                     String newLine = name + "," + parts[1] + "," + parts[2] + "," + stock;
-
-                    try {
-                        RandomAccessFile raf = new RandomAccessFile(file, "rw");
-                        long position = (lineNum - 1) * (newLine.length() + 1);
-                        byte[] lineBytes = newLine.getBytes();
-                        int lineLength = lineBytes.length;
-
-                        // 清空原行
-                        raf.seek(position);
-                        for (int j = 0; j < lineLength; j++) {
-                            raf.writeByte(0);
-                        }
-
-                        // 写入新行
-                        raf.seek(position);
-                        raf.writeBytes(newLine);
-
-                        raf.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    lines.set(lineNum, newLine);
+                    break;
                 }
             }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        读取sales.txt的行数
+        int lineNumSales = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader("sales.txt"))) {
+            while (reader.readLine() != null) {
+                lineNumSales++;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        获取19-06-2023格式的日期
+        String date = LocalDate.now().plusYears(2).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+//        获取19:47:41格式的时间
+        String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String total = String.valueOf(totalPrice);
+        String newLineSales = (lineNumSales+1) + "," + date + "," + time + ","  + total + "," + userName;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("sales.txt", true))) {
+            writer.newLine();
+            writer.write(newLineSales);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return true;
     }
