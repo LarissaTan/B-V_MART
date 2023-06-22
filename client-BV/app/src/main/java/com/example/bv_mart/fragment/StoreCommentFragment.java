@@ -180,32 +180,36 @@ public class StoreCommentFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             Log.i("ReceiveMessagesTask", "doInBackground: Task started.");
-
-            try {
-                Log.i("ReceiveMessagesTask", "doInBackground: try started.");
-                while (socket.isConnected()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
                     try {
-                        Log.i("ReceiveMessagesTask", "doInBackground: socket.is connected");
-                        chatObject receivedMsg = (chatObject) reader.readObject();
-                        if (receivedMsg != null) {
-                            ChatMessageBean receivedChatBean = new ChatMessageBean(
-                                    receivedMsg.msg, receivedMsg.username, receivedMsg.time);
-                            // 通过回调方法更新UI
-                            onMessageReceived(receivedChatBean);
+                        Log.i("ReceiveMessagesTask", "doInBackground: try started.");
+                        while (socket.isConnected()) {
+                            try {
+                                Log.i("ReceiveMessagesTask", "doInBackground: socket.is connected");
+                                chatObject receivedMsg = (chatObject) reader.readObject();
+                                if (receivedMsg != null) {
+                                    ChatMessageBean receivedChatBean = new ChatMessageBean(
+                                            receivedMsg.msg, receivedMsg.username, receivedMsg.time);
+                                    // 通过回调方法更新UI
+                                    onMessageReceived(receivedChatBean);
+                                }
+                            } catch (IOException | ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (socket != null) {
+                                socket.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            } finally {
-                try {
-                    if (socket != null) {
-                        socket.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            }).start();
 
             return null;
         }
