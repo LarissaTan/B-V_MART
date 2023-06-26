@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/nav_frag"
         android:layout_width="match_parent"
-        android:layout_height="600dp"/>
+        android:layout_height="670dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_view"
