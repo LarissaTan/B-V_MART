@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_login.setOnClickListener(this);
         btn_register.setOnClickListener(this);
 
-        this.deleteDatabase("ShoppingMallInfo");
-        this.deleteDatabase("db");
-
 
         if (ShareUtils.getRember().equals("1")) {
             rember.setChecked(true);
@@ -109,18 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 NetworkTask networkTask = new NetworkTask(username, password);
                 networkTask.execute();
 
-//                if (flag) {
-//                    if (rember.isChecked()) {
-//                        ShareUtils.putUserName(username);
-//                        ShareUtils.putPassword(password);
-//                    }
-//                    Toast.makeText(MainActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(this, HomeActivity.class));
-//                    MainActivity.this.finish();
-//                } else {
-//                    Toast.makeText(MainActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
                 break;
             case R.id.M_register:
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);

@@ -29,7 +29,6 @@ import java.net.UnknownHostException;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private BottomNavigationView navigationView;
-    private int UserID;
     private String username;
     private OrderFragment orderFragment = new OrderFragment();
     private HomeFragment homeFragment = new HomeFragment();
@@ -53,7 +52,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void ininView() {
         navigationView = findViewById(R.id.navigation_view);
-        UserID = MySQLiteHelper.getInstance(getApplicationContext()).GetUserId(MainActivity.username);
         replacementFragment(homeFragment);
     }
 

@@ -121,12 +121,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void DoInsert(Userinfo userinfo) {
-        MySQLiteHelper.getInstance(this).insertUserinfo(userinfo);
-        ToastUtil.showShort("Register successfully");
-        RegisterActivity.this.finish();
-    }
-
 
     private class NetworkTaskRegister extends AsyncTask<Void, Void, String> {
         private String username;

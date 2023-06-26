@@ -30,23 +30,6 @@ public class MySQLiteHelper {
     }
 
 
-    //将注册的用户名密码插入到表中
-    public void insertUserinfo(Userinfo userinfo) {
-        db.execSQL("insert into userInfo(userName,password) values(?,?)", new Object[]{userinfo.getUserName(), userinfo.getPassword()});
-        //Log.e("插入语句:", "插入已执行，插入成功");
-    }
-
-
-    //查询用户名密码是否正确
-    public boolean queryUseristrue(String userName, String password) {
-        Cursor cursor = db.rawQuery("select * from userInfo where username = ? and password = ?", new String[]{userName, password});
-        if (cursor.moveToFirst() == true) {
-            cursor.close();
-            return true;
-        }
-        return false;
-    }
-
     //查询用户名是否存在 存在返回true 不存在false
     public boolean queryNameisExist(String username) {
         Cursor cursor = db.rawQuery("select * from userInfo where username = ? ", new String[]{username});
@@ -57,17 +40,6 @@ public class MySQLiteHelper {
         return false;
     }
 
-    public int GetUserId(String userName){
-        Userinfo userinfo = new Userinfo();
-        Cursor cursor = db.rawQuery("SELECT * FROM userInfo WHERE userName LIKE ? ",
-                new String[] {userName});
-        if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                userinfo.setId(cursor.getInt(0));
-            }
-        }
-        return userinfo.getId();
-    }
 
     public String queryGoods(){
         String resultJson = null;
