@@ -49,7 +49,7 @@ public class StoreCommentFragment extends Fragment {
     private Button btn_message_send;
     private String messages;
     private ChatMessageBean chatMessageBean;
-    public Socket socket; // 替换为服务器的IP地址和端口号
+    public Socket socket;
     public ObjectOutputStream writer;
     public ObjectInputStream reader;
 
@@ -63,7 +63,7 @@ public class StoreCommentFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // 连接Socket并启动后台线程接收消息
+
         new AsyncTask<Void, Void, Void>() {
             @SuppressLint("WrongThread")
             @Override
@@ -75,7 +75,6 @@ public class StoreCommentFragment extends Fragment {
                     reader = new ObjectInputStream(socket.getInputStream());
 
                     Log.i("ReceiveMessagesTask", "after setup");
-                    // 启动后台线程接收消息
                     ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
                     Log.i("ReceiveMessagesTask", "next is execute");
                     receiveMessagesTask.execute();
@@ -89,14 +88,13 @@ public class StoreCommentFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                // 在连接完成后的回调方法中执行其他操作
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         initData();
                         initView();
                     }
-                }, 500); // 延迟0.5秒执行
+                }, 500);
             }
         }.execute();
 
@@ -122,7 +120,7 @@ public class StoreCommentFragment extends Fragment {
         rv_Chat.setAdapter(adapter);
         rv_Chat.scrollToPosition(adapter.getItemCount()-1);
 
-        //发送信息的判断和操作
+
         btn_message_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,16 +136,11 @@ public class StoreCommentFragment extends Fragment {
                         protected String doInBackground(Void... voids) {
                             String response = null;
                             try {
-                                Log.i("ReceiveMessagesTask", "doInBackground: writer is here"); // 添加日志输出
-                                //Socket socket = new Socket("10.0.2.2", 12345); // 替换为服务器的IP地址和端口号
-                                //ObjectInputStream reader = new ObjectInputStream(clientSocket.getInputStream());
-                                //                                // 启动后台线程接收消息
-//                                ReceiveMessagesTask receiveMessagesTask = new ReceiveMessagesTask();
-//                                receiveMessagesTask.execute();
+                                Log.i("ReceiveMessagesTask", "doInBackground: writer is here");
 
                                 chatObject msg = new chatObject(MainActivity.username,messages,DateUtill.getCurrentTime());
-                                Log.i("ReceiveMessagesTask", "doInBackground: msg sending is " + msg.msg); // 添加日志输出
-                                writer.writeObject(msg); // 发送消息到服务器
+                                Log.i("ReceiveMessagesTask", "doInBackground: msg sending is " + msg.msg);
+                                writer.writeObject(msg);
                                 writer.flush();
 
                                 //writer.close();
@@ -160,7 +153,6 @@ public class StoreCommentFragment extends Fragment {
 
                         @Override
                         protected void onPostExecute(String response) {
-                            // 在网络操作完成后的回调方法中更新UI或执行其他操作
                             MySQLiteHelper.getInstance(getActivity()).insertMessages(chatMessageBean);
                             Log.i("StoreCommentFragment", "writer, size is : " + String.valueOf(chatMessageBeans.size()));
                             adapter.refreshMessages();
@@ -228,7 +220,6 @@ public class StoreCommentFragment extends Fragment {
                     chatMessageBeans.add(message);
                     Log.i("StoreCommentFragment", "size is : " + String.valueOf(chatMessageBeans.size()));
                     adapter.refreshMessages();
-                    //adapter.notifyDataSetChanged();
                     rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
                 }
             }
