@@ -22,7 +22,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
         order = view.findViewById(R.id.get_order);
-        pay = view.findViewById(R.id.PayBill);
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
