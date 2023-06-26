@@ -223,12 +223,14 @@ public class StoreCommentFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MySQLiteHelper.getInstance(getActivity()).insertMessages(message);
-                chatMessageBeans.add(message);
-                Log.i("StoreCommentFragment", "size is : " + String.valueOf(chatMessageBeans.size()));
-                adapter.refreshMessages();
-               //adapter.notifyDataSetChanged();
-                rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
+                if(message.getUserName() != MainActivity.username) {
+                    MySQLiteHelper.getInstance(getActivity()).insertMessages(message);
+                    chatMessageBeans.add(message);
+                    Log.i("StoreCommentFragment", "size is : " + String.valueOf(chatMessageBeans.size()));
+                    adapter.refreshMessages();
+                    //adapter.notifyDataSetChanged();
+                    rv_Chat.scrollToPosition(adapter.getItemCount() - 1);
+                }
             }
         });
     }
