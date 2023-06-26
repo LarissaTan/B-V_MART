@@ -215,7 +215,9 @@ public class StoreCommentFragment extends Fragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(message.getUserName() != MainActivity.username) {
+                Log.i("StoreCommentFragment",MainActivity.username);
+                Log.i("StoreCommentFragment",message.getUserName());
+                if(!message.getUserName().equals(MainActivity.username)) {
                     MySQLiteHelper.getInstance(getActivity()).insertMessages(message);
                     chatMessageBeans.add(message);
                     Log.i("StoreCommentFragment", "size is : " + String.valueOf(chatMessageBeans.size()));
