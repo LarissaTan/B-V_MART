@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                InetAddress host = InetAddress.getByName("170.20.10.2");
+                InetAddress host = InetAddress.getByName("172.20.10.2");
                 Socket socket = new Socket(host.getHostName(), 16800);
 
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
