@@ -35,7 +35,7 @@ public class commentServer {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(12345);
+        ServerSocket serverSocket = new ServerSocket(12341);
         commentServer cs = new commentServer(serverSocket);
         cs.startServer();
     }
