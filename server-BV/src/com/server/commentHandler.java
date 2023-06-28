@@ -26,7 +26,7 @@ public class commentHandler implements Runnable{
             }
         }catch (IOException e){
             closeEverything(socket,reader,writer);
-        } 
+        }
     }
 
     @Override   // run on a separate thread
