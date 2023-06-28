@@ -21,7 +21,7 @@ public class BackUpNetworkTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         try {
             InetAddress host = InetAddress.getLocalHost();
-            Socket socket = new Socket(host.getHostName(), 16800);
+            Socket socket = new Socket("172.20.10.2", 16800);
 
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject("login" + "@" + username + "@" + password);
