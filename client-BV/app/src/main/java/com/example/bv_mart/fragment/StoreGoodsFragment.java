@@ -404,7 +404,7 @@ public class StoreGoodsFragment extends Fragment {
             total = a ;
             //Log.e("total",total+"");
         }
-        tv_total.setText("￥ "+ total);
+        tv_total.setText("RM "+ total);
         MyDialog.total = total ;
     }
 
