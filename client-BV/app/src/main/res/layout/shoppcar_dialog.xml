@@ -94,7 +94,7 @@
 
         <TextView
             android:id="@+id/tv_total_dialog"
-            android:text="$50"
+            android:text="RM 50"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"

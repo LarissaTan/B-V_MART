@@ -303,7 +303,7 @@ public class StoreGoodsFragment extends Fragment {
 
             ((TextView)holder.getView(R.id.tvName)).setText(getmData().get(position).getName());
             ((TextView)holder.getView(R.id.tvContant)).setText(getmData().get(position).getContent());
-            ((TextView)holder.getView(R.id.tvPrice)).setText("$:"+getmData().get(position).getPrice());
+            ((TextView)holder.getView(R.id.tvPrice)).setText("RM:"+getmData().get(position).getPrice());
           if ( !(getmData().get(position).getNumber() == 0)){
                 ((ImageView)holder.getView(R.id.iv_minus)).setVisibility(View.VISIBLE);
                 ((TextView)holder.getView(R.id.tv_number)).setVisibility(View.VISIBLE);

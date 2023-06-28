@@ -102,6 +102,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
             //Log.e("total",total+"");
         }
 
-        tv_total.setText("$"+ total);
+        tv_total.setText("RM"+ total);
     }
 }

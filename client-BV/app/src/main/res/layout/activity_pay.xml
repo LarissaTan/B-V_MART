@@ -51,7 +51,7 @@
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/tv_submitOrder"
             android:textSize="30dp"
-            android:text="$45.26"
+            android:text="RM 45.26"
             android:textColor="#E30732"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>

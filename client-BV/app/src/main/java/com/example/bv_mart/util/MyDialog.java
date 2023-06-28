@@ -80,7 +80,7 @@ public class MyDialog {
         tv_total =view.findViewById(R.id.tv_total_dialog);
 
         total = StoreGoodsFragment.total;
-        tv_total.setText("$ "+StoreGoodsFragment.total);
+        tv_total.setText("RM "+StoreGoodsFragment.total);
         iv_shoppingCar.setImageResource(R.drawable.shoppingcar_full_64);
         tv_DoShopping.setText("Pay for it");
         //初始化recyclerView
